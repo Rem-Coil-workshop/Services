@@ -1,20 +1,45 @@
 package com.remcoil.boxes
 
-import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.ResultRow
-import org.jetbrains.exposed.sql.selectAll
+import com.remcoil.tasks.Tasks
+import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class BoxesDao(private val database: Database) {
-    fun getAllBoxes(): List<BoxFromDB> = transaction(database) {
+    fun getBoxById(id: Int): Box = transaction(database) {
+        Boxes
+            .select { Boxes.id eq id }
+            .map(::extractBox)
+            .firstOrNull() ?: throw NoSuchBoxException()
+    }
+
+    fun getAllBoxes(): List<Box> = transaction(database) {
         Boxes
             .selectAll()
             .map(::extractBox)
     }
 
-    private fun extractBox(row: ResultRow): BoxFromDB = BoxFromDB(
+    fun createBox(box: BoxInfo): Box = transaction {
+        val id = Boxes.insertAndGetId {
+            it[number] = box.number
+            if (box.taskId != null) it[taskId] = EntityID(box.taskId, Tasks)
+        }
+
+        Box(id.value, box.number, box.taskId)
+    }
+
+    private fun extractBox(row: ResultRow): Box = Box(
         row[Boxes.id].value,
         row[Boxes.number],
         row[Boxes.taskId]?.value
     )
+
+    fun updateBox(box: Box): Box = transaction(database) {
+        Boxes.update({ Boxes.id eq box.id}) {
+            if (box.task != null) it[taskId] = EntityID(box.task, Tasks)
+            else it[taskId] = null
+        }
+
+        return@transaction box
+    }
 }

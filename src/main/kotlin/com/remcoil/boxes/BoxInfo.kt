@@ -3,8 +3,7 @@ package com.remcoil.boxes
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Box(
-    val id: Int,
+data class BoxInfo(
     val number: Int,
-    val task: Int? = null
+    val taskId: Int? = null
 )

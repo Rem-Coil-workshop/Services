@@ -1,5 +1,7 @@
 package com.remcoil
 
+import com.remcoil.boxes.boxesComponents
+import com.remcoil.boxes.boxesModule
 import com.remcoil.config.AppConfig
 import com.remcoil.database.migrate
 import com.remcoil.employees.employeeModule
@@ -33,6 +35,7 @@ fun main() {
             tasksComponents()
             employeesComponents()
             logsComponents()
+            boxesComponents()
         }
 
         main()
@@ -62,6 +65,7 @@ private fun Application.modules() {
 
     employeeModule()
     logsModule()
+    boxesModule()
 }
 
 private fun DI.Builder.coreComponents(config: AppConfig) {
