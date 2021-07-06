@@ -4,6 +4,8 @@ import com.remcoil.config.AppConfig
 import com.remcoil.database.migrate
 import com.remcoil.employees.employeeModule
 import com.remcoil.employees.employeesComponents
+import com.remcoil.logs.logsComponents
+import com.remcoil.logs.logsModule
 import com.remcoil.tasks.tasksComponents
 import com.remcoil.tasks.tasksModule
 import io.ktor.application.*
@@ -30,6 +32,7 @@ fun main() {
             coreComponents(config)
             tasksComponents()
             employeesComponents()
+            logsComponents()
         }
 
         main()
@@ -58,6 +61,7 @@ private fun Application.modules() {
     tasksModuleOld()
 
     employeeModule()
+    logsModule()
 }
 
 private fun DI.Builder.coreComponents(config: AppConfig) {

@@ -8,6 +8,20 @@ class TasksDao(private val database: Database) {
         Tasks.selectAll().map(::extractTask)
     }
 
+    fun getTaskByName(name: String): Task = transaction(database) {
+        Tasks
+            .select { Tasks.name eq name }
+            .map(::extractTask)
+            .firstOrNull() ?: throw NoSuchTaskException()
+    }
+
+    fun getTaskById(id: Int): Task = transaction(database) {
+        Tasks
+            .select { Tasks.id eq id }
+            .map(::extractTask)
+            .firstOrNull() ?: throw NoSuchTaskException()
+    }
+
     fun addTask(taskName: String): Task = transaction(database) {
         val id = Tasks.insertAndGetId {
             it[name] = taskName

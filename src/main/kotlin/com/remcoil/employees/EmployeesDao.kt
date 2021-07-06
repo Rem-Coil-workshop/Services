@@ -4,6 +4,12 @@ import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class EmployeesDao(private val database: Database) {
+    fun getAll(): List<EmployeeWithId> = transaction {
+        Employees
+            .selectAll()
+            .map(::extractEmployee)
+    }
+
     fun getEmployeeById(id: Int): EmployeeWithId = transaction(database) {
         Employees
             .select { Employees.id eq id }

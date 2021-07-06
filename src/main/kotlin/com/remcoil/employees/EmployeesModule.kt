@@ -13,6 +13,10 @@ fun Application.employeeModule() {
 
     routing {
         route("/v1/employees") {
+            get {
+                call.respond(service.getAll())
+            }
+
             get("/id/{id}") {
                 val id = call.parameters["id"]!!.toInt()
                 call.respond(service.getById(id))

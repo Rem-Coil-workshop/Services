@@ -1,6 +1,8 @@
 package com.remcoil.employees
 
 class EmployeesService(private val dao: EmployeesDao) {
+    fun getAll() = dao.getAll()
+
     fun getById(id: Int) = dao.getEmployeeById(id)
 
     fun getByEmployeeNumber(number: Int): EmployeeWithId = dao.getEmployeeByNumber(number)

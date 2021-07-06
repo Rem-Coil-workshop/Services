@@ -47,7 +47,7 @@ fun Application.tasksModule() {
                 }
             }
 
-            delete("/{name}") {
+            delete {
                 call.safetyReceive<TaskResponse> { task ->
                     service.deleteTask(task.name)
                     call.respond(HttpStatusCode.NoContent)
