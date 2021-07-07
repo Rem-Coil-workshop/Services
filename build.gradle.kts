@@ -18,15 +18,20 @@ plugins {
 group = "com.remcoil"
 version = "0.0.1"
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach  {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
+//tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+//    kotlinOptions {
+//        jvmTarget = "1.8"
+//    }
+//}
 
 application {
-    mainClass.set("io.ktor.server.netty.EngineMain")
+    mainClass.set("com.remcoil.ApplicationKt")
 }
+
+
+//application {
+//    mainClass.set("io.ktor.server.netty.EngineMain")
+//}
 
 repositories {
     mavenCentral()
