@@ -1,16 +1,16 @@
 package com.remcoil.employees
 
-import com.remcoil.utils.safetyTransaction
+import com.remcoil.utils.safetySuspendTransaction
 import org.jetbrains.exposed.sql.*
 
 class EmployeesDao(private val database: Database) {
-    fun getAll(): List<EmployeeWithId> = safetyTransaction(database) {
+    suspend fun getAll(): List<EmployeeWithId> = safetySuspendTransaction(database) {
         Employees
             .selectAll()
             .map(::extractEmployee)
     }
 
-    fun getEmployeeById(id: Int): EmployeeWithId = safetyTransaction(database) {
+    suspend fun getEmployeeById(id: Int): EmployeeWithId = safetySuspendTransaction(database) {
         Employees
             .select { Employees.id eq id }
             .map(::extractEmployee)
@@ -18,7 +18,7 @@ class EmployeesDao(private val database: Database) {
             ?: throw NoSuchEmployeeException("Сотрудника с таким id не существует")
     }
 
-    fun getEmployeeByNumber(number: Int): EmployeeWithId = safetyTransaction(database) {
+    suspend fun getEmployeeByNumber(number: Int): EmployeeWithId = safetySuspendTransaction(database) {
         Employees
             .select { Employees.employeeNumber eq number }
             .map(::extractEmployee)
@@ -27,8 +27,8 @@ class EmployeesDao(private val database: Database) {
     }
 
 
-    fun addEmployee(employee: Employee): EmployeeWithId =
-        safetyTransaction(database, "Введено не уникальное значение номера сотрудника") {
+    suspend fun addEmployee(employee: Employee): EmployeeWithId =
+        safetySuspendTransaction(database, "Введено не уникальное значение номера сотрудника") {
             val id = Employees.insertAndGetId {
                 it[employeeNumber] = employee.employeeNumber
                 it[name] = employee.name
@@ -38,12 +38,12 @@ class EmployeesDao(private val database: Database) {
             EmployeeWithId(id.value, employee)
         }
 
-    fun removeEmployeeById(id: Int) = safetyTransaction(database) {
+    suspend fun removeEmployeeById(id: Int) = safetySuspendTransaction(database) {
         val resultCode = Employees.deleteWhere { Employees.id eq id }
         if (resultCode == 0) throw NoSuchEmployeeException("Сотрудника с таким id не существует")
     }
 
-    fun removeEmployeeByEmployeeNumber(number: Int) = safetyTransaction(database) {
+    suspend fun removeEmployeeByEmployeeNumber(number: Int) = safetySuspendTransaction(database) {
         val resultCode = Employees.deleteWhere { Employees.employeeNumber eq number }
         if (resultCode == 0) throw NoSuchEmployeeException("Сотрудника с таким номером не существует")
     }

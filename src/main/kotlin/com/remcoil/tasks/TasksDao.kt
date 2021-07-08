@@ -1,28 +1,28 @@
 package com.remcoil.tasks
 
-import com.remcoil.utils.safetyTransaction
+import com.remcoil.utils.safetySuspendTransaction
 import org.jetbrains.exposed.sql.*
 
 class TasksDao(private val database: Database) {
-    fun getAll(): List<Task> = safetyTransaction(database) {
+    suspend fun getAll(): List<Task> = safetySuspendTransaction(database) {
         Tasks.selectAll().map(::extractTask)
     }
 
-    fun getTaskById(id: Int): Task = safetyTransaction(database) {
+    suspend fun getTaskById(id: Int): Task = safetySuspendTransaction(database) {
         Tasks
             .select { Tasks.id eq id }
             .map(::extractTask)
             .singleOrNull() ?: throw NoSuchTaskException("Задача с таким id не существет")
     }
 
-    fun getTaskQrCode(qrCode: String): Task? = safetyTransaction(database) {
+    suspend fun getTaskQrCode(qrCode: String): Task? = safetySuspendTransaction(database) {
         Tasks
             .select { Tasks.qrCode eq qrCode }
             .map(::extractTask)
             .singleOrNull()
     }
 
-    fun addTask(qrCode: String): Task = safetyTransaction(database, "Введено не уникальное значение кода") {
+    suspend fun addTask(qrCode: String): Task = safetySuspendTransaction(database, "Введено не уникальное значение кода") {
         val id = Tasks.insertAndGetId {
             it[this.qrCode] = qrCode
         }
@@ -30,7 +30,7 @@ class TasksDao(private val database: Database) {
         Task(id.value, qrCode)
     }
 
-    fun removeTask(qrCode: String) = safetyTransaction(database) {
+    suspend fun removeTask(qrCode: String) = safetySuspendTransaction(database) {
         val resultCode = Tasks.deleteWhere { Tasks.qrCode eq qrCode }
         if (resultCode == 0) throw NoSuchTaskException("Задача с таким кодом не существет")
     }

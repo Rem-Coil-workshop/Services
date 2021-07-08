@@ -1,5 +1,5 @@
 package com.remcoil.slots
 
 interface SlotOpener {
-    fun open(qrCode: String): Boolean
+    suspend fun open(qrCode: String): Boolean
 }

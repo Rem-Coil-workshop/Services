@@ -8,6 +8,7 @@ import io.ktor.client.statement.*
 import io.ktor.http.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import org.slf4j.LoggerFactory
 
 class SlotOpenerImpl(
@@ -17,9 +18,9 @@ class SlotOpenerImpl(
 ) : SlotOpener {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    override fun open(qrCode: String): Boolean {
+    override suspend fun open(qrCode: String): Boolean {
         val box = boxesService.getByQrCode(qrCode)
-        return runBlocking(Dispatchers.IO) {
+        return withContext(Dispatchers.IO) {
             openSlotByBoxNumber(box.number)
         }
     }

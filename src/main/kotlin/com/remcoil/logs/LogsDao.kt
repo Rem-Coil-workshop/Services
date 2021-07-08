@@ -2,7 +2,7 @@ package com.remcoil.logs
 
 import com.remcoil.employees.EmployeeWithId
 import com.remcoil.tasks.Task
-import com.remcoil.utils.safetyTransaction
+import com.remcoil.utils.safetySuspendTransaction
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.insertAndGetId
@@ -18,11 +18,11 @@ class LogsDao(private val database: Database) {
 
     private var countLogs = DEFAULT_COUNT_VALUE
 
-    fun getPage(page: Int): List<LogFromDB> {
+    suspend fun getPage(page: Int): List<LogFromDB> {
         updateCache()
         if (page.firstElement() > countLogs) throw OutOfLogsException("$countLogs")
 
-        return safetyTransaction(database) {
+        return safetySuspendTransaction(database) {
             Logs
                 .selectAll()
                 .limit(COUNT_LOGS_ON_PAGE.toInt(), offset = page.firstElement())
@@ -42,8 +42,8 @@ class LogsDao(private val database: Database) {
         }
     }
 
-    fun addLog(task: Task, employee: EmployeeWithId): Log =
-        safetyTransaction(database, "Ошибка в указании рабочего или задачи, возможно их они не существуют.") {
+    suspend fun addLog(task: Task, employee: EmployeeWithId): Log =
+        safetySuspendTransaction(database, "Ошибка в указании рабочего или задачи, возможно их они не существуют.") {
             val time = LocalDateTime.now()
             val id = Logs.insertAndGetId {
                 it[employeeId] = employee.id

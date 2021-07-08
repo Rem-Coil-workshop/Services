@@ -1,9 +1,9 @@
 package com.remcoil.slots
 
 interface SlotService {
-    fun setCardNumber(card: Int)
+    suspend fun setCardNumber(card: Int)
 
-    fun setQrCode(qrCode: String): Boolean
+    suspend fun setQrCode(qrCode: String): Boolean
 
-    fun resetState()
+    suspend fun resetState()
 }
