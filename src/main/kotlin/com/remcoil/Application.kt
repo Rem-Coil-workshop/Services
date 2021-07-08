@@ -19,6 +19,8 @@ import io.github.config4k.extract
 import io.ktor.application.*
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
+import io.ktor.client.features.json.*
+import io.ktor.client.features.json.serializer.*
 import io.ktor.features.*
 import io.ktor.http.*
 import io.ktor.serialization.*
@@ -79,11 +81,11 @@ private fun Application.modules() {
 }
 
 private fun DI.Builder.coreComponents(config: AppConfig) {
-    bind<AppConfig>() with eagerSingleton  { config }
+    bind<AppConfig>() with eagerSingleton { config }
 
     bind<RoutesConfig>() with eagerSingleton { config.routes }
 
-    bind<Database>() with eagerSingleton  {
+    bind<Database>() with eagerSingleton {
         Database.connect(
             url = config.database.url,
             user = config.database.user,
@@ -91,5 +93,11 @@ private fun DI.Builder.coreComponents(config: AppConfig) {
         )
     }
 
-    bind<HttpClient>() with eagerSingleton  { HttpClient(CIO) }
+    bind<HttpClient>() with eagerSingleton {
+        HttpClient(CIO) {
+            install(JsonFeature) {
+                serializer = KotlinxSerializer()
+            }
+        }
+    }
 }

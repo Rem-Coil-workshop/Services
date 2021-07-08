@@ -1,11 +1,15 @@
 package com.remcoil.slots
 
 interface SlotState {
-    var cardNumber: Int
-
-    var qrCode: String
-
     val isReady: Boolean
 
-    fun reset()
+    val cardNumber: Int
+
+    val qrCode: String
+
+    suspend fun setCardNumber(card: Int)
+
+    suspend fun setQrNumber(qr: String)
+
+    suspend fun reset()
 }

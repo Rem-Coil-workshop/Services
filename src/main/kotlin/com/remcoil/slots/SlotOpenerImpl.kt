@@ -7,7 +7,6 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.slf4j.LoggerFactory
 
@@ -26,11 +25,12 @@ class SlotOpenerImpl(
     }
 
     private suspend fun openSlotByBoxNumber(boxNumber: Int): Boolean {
-        logger.info("Open $boxNumber box")
-        return true
-//        return client.post<HttpResponse>(urlString = routesConfig.opener) {
-//            contentType(ContentType.Application.Json)
-//            body = SlotInfo(boxNumber)
-//        }.status.isSuccess()
+        val result = client.post<HttpResponse>(urlString = routesConfig.opener) {
+            contentType(ContentType.Application.Json)
+            body = SlotInfo(boxNumber)
+        }.status.isSuccess()
+//        val result = true
+        if (result) logger.info("Open $boxNumber box")
+        return result
     }
 }

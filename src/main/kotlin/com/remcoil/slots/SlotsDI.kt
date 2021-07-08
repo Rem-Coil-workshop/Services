@@ -8,7 +8,9 @@ import org.kodein.di.singleton
 fun DI.Builder.slotsComponent() {
     bind<SlotService>() with singleton { SlotServiceImpl(instance(), instance(), instance(), instance()) }
 
-    bind<SlotState>() with singleton { SingleSlotState() }
+    bind<SlotState>() with singleton { SingleSlotState(instance()) }
 
     bind<SlotOpener>() with singleton { SlotOpenerImpl(instance(), instance(), instance()) }
+
+    bind<LedHelper>() with singleton { LedHelper(instance(), instance()) }
 }

@@ -7,18 +7,18 @@ class SlotServiceImpl(
     private val employeesService: EmployeesService,
     private val logsService: LogsService,
     private val opener: SlotOpener,
-    private val state: SlotState,
+    private val state: SlotState
 ) : SlotService {
     override suspend fun setCardNumber(card: Int) {
         employeesService.checkByCard(card)
-        state.cardNumber = card
+        state.setCardNumber(card)
         openSlot()
     }
 
     override suspend fun setQrCode(qrCode: String): Boolean {
         val isCodeValid = true // TODO: 08.07.2021 Добавить логику проверки валиндности кода
         if (isCodeValid) {
-            state.qrCode = qrCode
+            state.setQrNumber(qrCode)
             openSlot()
         }
         return isCodeValid
