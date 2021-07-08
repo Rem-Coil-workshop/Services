@@ -22,7 +22,7 @@ fun Application.logsModule() {
 
             post {
                 call.safetyReceive<LogData> { logData ->
-                    call.respond(service.create(logData.qrCode, logData.cardCode))
+                    call.respond(service.log(logData.qrCode, logData.cardCode))
                 }
             }
         }

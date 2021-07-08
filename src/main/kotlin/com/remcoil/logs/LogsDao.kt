@@ -55,7 +55,7 @@ class LogsDao(private val database: Database) {
         }
 
         incrementCountLogs()
-        Log(id.value, employee.name, employee.surname, time.toString(), task.name)
+        Log(id.value, employee.name, employee.surname, time.toString(), task.qrCode)
     }
 
     private fun incrementCountLogs() {

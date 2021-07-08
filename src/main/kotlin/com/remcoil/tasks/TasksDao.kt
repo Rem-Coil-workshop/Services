@@ -8,35 +8,35 @@ class TasksDao(private val database: Database) {
         Tasks.selectAll().map(::extractTask)
     }
 
-    fun getTaskByName(name: String): Task = transaction(database) {
-        Tasks
-            .select { Tasks.name eq name }
-            .map(::extractTask)
-            .firstOrNull() ?: throw NoSuchTaskException()
-    }
-
     fun getTaskById(id: Int): Task = transaction(database) {
         Tasks
             .select { Tasks.id eq id }
             .map(::extractTask)
-            .firstOrNull() ?: throw NoSuchTaskException()
+            .singleOrNull() ?: throw NoSuchTaskException()
+    }
+
+    fun getTaskQrCode(qrCode: String): Task? = transaction(database) {
+        Tasks
+            .select { Tasks.qrCode eq qrCode }
+            .map(::extractTask)
+            .singleOrNull()
     }
 
     fun addTask(taskName: String): Task = transaction(database) {
         val id = Tasks.insertAndGetId {
-            it[name] = taskName
+            it[qrCode] = taskName
         }
 
         Task(id.value, taskName)
     }
 
     fun removeTask(task: String) = transaction {
-        val resultCode = Tasks.deleteWhere { Tasks.name eq task }
+        val resultCode = Tasks.deleteWhere { Tasks.qrCode eq task }
         if (resultCode == 0) throw NoSuchTaskException()
     }
 
     private fun extractTask(row: ResultRow): Task = Task(
         row[Tasks.id].value,
-        row[Tasks.name]
+        row[Tasks.qrCode]
     )
 }

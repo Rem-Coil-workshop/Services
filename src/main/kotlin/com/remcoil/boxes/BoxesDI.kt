@@ -7,5 +7,5 @@ import org.kodein.di.singleton
 
 fun DI.Builder.boxesComponents() {
     bind<BoxesDao>() with singleton { BoxesDao((instance())) }
-    bind<BoxesService>() with singleton { BoxesService((instance())) }
+    bind<BoxesService>() with singleton { BoxesService(instance(), instance()) }
 }

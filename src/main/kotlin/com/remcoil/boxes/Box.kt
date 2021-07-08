@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 data class Box(
     val id: Int,
     val number: Int,
-    val task: Int? = null
+    val taskId: Int? = null
 )

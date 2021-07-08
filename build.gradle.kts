@@ -18,20 +18,10 @@ plugins {
 group = "com.remcoil"
 version = "0.0.1"
 
-//tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-//    kotlinOptions {
-//        jvmTarget = "1.8"
-//    }
-//}
 
 application {
     mainClass.set("com.remcoil.ApplicationKt")
 }
-
-
-//application {
-//    mainClass.set("io.ktor.server.netty.EngineMain")
-//}
 
 repositories {
     mavenCentral()
@@ -41,6 +31,10 @@ dependencies {
     implementation("io.ktor:ktor-server-core:$ktorVersion")
     implementation("io.ktor:ktor-server-netty:$ktorVersion")
     implementation("io.ktor:ktor-serialization:$ktorVersion")
+
+    implementation("io.ktor:ktor-client-core:$ktorVersion")
+    implementation("io.ktor:ktor-client-cio:$ktorVersion")
+
 
     implementation("io.github.config4k:config4k:$config4kVersion")
     implementation("org.kodein.di:kodein-di-framework-ktor-server-jvm:$kodeinVersion")

@@ -10,7 +10,7 @@ class BoxesDao(private val database: Database) {
         Boxes
             .select { Boxes.id eq id }
             .map(::extractBox)
-            .firstOrNull() ?: throw NoSuchBoxException()
+            .singleOrNull() ?: throw NoSuchBoxException()
     }
 
     fun getAllBoxes(): List<Box> = transaction(database) {
@@ -36,10 +36,17 @@ class BoxesDao(private val database: Database) {
 
     fun updateBox(box: Box): Box = transaction(database) {
         Boxes.update({ Boxes.id eq box.id}) {
-            if (box.task != null) it[taskId] = EntityID(box.task, Tasks)
+            if (box.taskId != null) it[taskId] = EntityID(box.taskId, Tasks)
             else it[taskId] = null
         }
 
         return@transaction box
+    }
+
+    fun getBoxByTaskId(taskId: Int): Box? = transaction {
+        Boxes
+            .select { Boxes.taskId eq taskId }
+            .map(::extractBox)
+            .singleOrNull()
     }
 }

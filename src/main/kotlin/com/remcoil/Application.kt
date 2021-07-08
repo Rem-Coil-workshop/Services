@@ -3,17 +3,22 @@ package com.remcoil
 import com.remcoil.boxes.boxesComponents
 import com.remcoil.boxes.boxesModule
 import com.remcoil.config.AppConfig
+import com.remcoil.config.RoutesConfig
 import com.remcoil.database.migrate
 import com.remcoil.employees.employeeModule
 import com.remcoil.employees.employeesComponents
 import com.remcoil.logs.logsComponents
 import com.remcoil.logs.logsModule
+import com.remcoil.slots.slotModule
+import com.remcoil.slots.slotsComponent
 import com.remcoil.tasks.tasksComponents
 import com.remcoil.tasks.tasksModule
-import io.ktor.application.*
 import com.remcoil.tasks.tasksModuleOld
 import com.typesafe.config.ConfigFactory
 import io.github.config4k.extract
+import io.ktor.application.*
+import io.ktor.client.*
+import io.ktor.client.engine.cio.*
 import io.ktor.features.*
 import io.ktor.http.*
 import io.ktor.serialization.*
@@ -22,25 +27,18 @@ import io.ktor.server.netty.*
 import org.jetbrains.exposed.sql.Database
 import org.kodein.di.DI
 import org.kodein.di.bind
+import org.kodein.di.eagerSingleton
 import org.kodein.di.ktor.di
-import org.kodein.di.singleton
 
 fun main() {
     val config = ConfigFactory.load().extract<AppConfig>()
     migrate(config.database)
 
     val engine = embeddedServer(Netty, port = config.http.port) {
-        di {
-            coreComponents(config)
-            tasksComponents()
-            employeesComponents()
-            logsComponents()
-            boxesComponents()
-        }
-
         main()
         configureSerialization()
         modules()
+        diComponents(config)
     }
 
     engine.start(wait = true)
@@ -59,6 +57,17 @@ private fun Application.configureSerialization() {
     }
 }
 
+private fun Application.diComponents(config: AppConfig) {
+    di {
+        coreComponents(config)
+        tasksComponents()
+        employeesComponents()
+        logsComponents()
+        boxesComponents()
+        slotsComponent()
+    }
+}
+
 private fun Application.modules() {
     tasksModule()
     tasksModuleOld()
@@ -66,16 +75,21 @@ private fun Application.modules() {
     employeeModule()
     logsModule()
     boxesModule()
+    slotModule()
 }
 
 private fun DI.Builder.coreComponents(config: AppConfig) {
-    bind<AppConfig>() with singleton { config }
+    bind<AppConfig>() with eagerSingleton  { config }
 
-    bind<Database>() with singleton {
+    bind<RoutesConfig>() with eagerSingleton { config.routes }
+
+    bind<Database>() with eagerSingleton  {
         Database.connect(
             url = config.database.url,
             user = config.database.user,
             password = config.database.password
         )
     }
+
+    bind<HttpClient>() with eagerSingleton  { HttpClient(CIO) }
 }

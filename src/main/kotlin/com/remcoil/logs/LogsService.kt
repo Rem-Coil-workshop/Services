@@ -9,8 +9,8 @@ class LogsService(
     private val taskDao: TasksDao
 ) {
 
-    fun create(qrCode: String, cardCode: Int): Log {
-        val task = taskDao.getTaskByName(qrCode)
+    fun log(qrCode: String, cardCode: Int): Log {
+        val task = taskDao.getTaskQrCode(qrCode)!!
         val employee = employeesDao.getEmployeeByNumber(cardCode)
         return logsDao.addLog(task, employee)
     }
@@ -20,7 +20,7 @@ class LogsService(
         return logs.map { logFromDB ->
             val task = taskDao.getTaskById(logFromDB.taskId)
             val employee = employeesDao.getEmployeeById(logFromDB.employeeId)
-            Log(logFromDB.id, employee.name, employee.surname, logFromDB.date.toString(), task.name)
+            Log(logFromDB.id, employee.name, employee.surname, logFromDB.date.toString(), task.qrCode)
         }
     }
 }
