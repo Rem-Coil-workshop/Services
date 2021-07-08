@@ -3,6 +3,7 @@ package com.remcoil.slots
 import com.remcoil.utils.safetyReceive
 import io.ktor.application.*
 import io.ktor.http.*
+import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import org.kodein.di.instance
@@ -15,8 +16,8 @@ fun Application.slotModule() {
         route("/v1/slots") {
             get("/card/{card}") {
                 call.safetyReceive("card") { card ->
-                    if (service.setCardNumber(card.toInt())) call.respond(HttpStatusCode.NoContent)
-                    else call.respond(HttpStatusCode.BadRequest)
+                    service.setCardNumber(card.toInt())
+                    call.respond(HttpStatusCode.NoContent)
                 }
             }
 
@@ -27,7 +28,7 @@ fun Application.slotModule() {
                 }
             }
 
-            get("button") {
+            get("/reset") {
                 service.resetState()
                 call.respond(HttpStatusCode.NoContent)
             }

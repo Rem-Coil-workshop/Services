@@ -1,5 +1,5 @@
 package com.remcoil.boxes
 
-class NoSuchBoxException(override val message: String? = null) : Exception(message) {
+import com.remcoil.base.BadRequestException
 
-}
+class NoSuchBoxException(override val message: String? = null) : BadRequestException(message)

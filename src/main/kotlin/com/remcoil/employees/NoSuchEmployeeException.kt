@@ -1,3 +1,5 @@
 package com.remcoil.employees
 
-class NoSuchEmployeeException(override val message: String = "") : Exception(message)
+import com.remcoil.base.BadRequestException
+
+class NoSuchEmployeeException(override val message: String = "") : BadRequestException(message)

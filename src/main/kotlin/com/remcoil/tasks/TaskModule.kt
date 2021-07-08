@@ -37,7 +37,7 @@ fun Application.tasksModule() {
 
     routing {
         route("/v1/tasks") {
-            get("/list") {
+            get {
                 call.respond(service.getTasks())
             }
 

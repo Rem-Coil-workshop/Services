@@ -1,3 +1,5 @@
 package com.remcoil.logs
 
-class OutOfLogsException(override val message: String? = null) : Exception(message)
+import com.remcoil.base.BadRequestException
+
+class OutOfLogsException(override val message: String? = null) : BadRequestException(message)

@@ -13,12 +13,7 @@ class EmployeesService(private val dao: EmployeesDao) {
 
     fun removeByEmployeeNumber(number: Int) = dao.removeEmployeeByEmployeeNumber(number)
 
-    fun checkByCard(card: Int): Boolean {
-        return try {
-            getByEmployeeNumber(card)
-            true
-        } catch (e: NoSuchEmployeeException) {
-            false
-        }
+    fun checkByCard(card: Int) {
+        getByEmployeeNumber(card)
     }
 }

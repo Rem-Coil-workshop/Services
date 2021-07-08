@@ -1,3 +1,5 @@
 package com.remcoil.tasks
 
-class NoSuchTaskException(override val message: String? = null) : Exception(message)
+import com.remcoil.base.BadRequestException
+
+class NoSuchTaskException(override val message: String? = null) : BadRequestException(message)

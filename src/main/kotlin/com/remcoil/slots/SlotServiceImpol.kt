@@ -9,13 +9,10 @@ class SlotServiceImpl(
     private val opener: SlotOpener,
     private val state: SlotState,
 ) : SlotService {
-    override fun setCardNumber(card: Int): Boolean {
-        val isEmployeeExist = employeesService.checkByCard(card)
-        if (isEmployeeExist) {
-            state.cardNumber = card
-            openSlot()
-        }
-        return isEmployeeExist
+    override fun setCardNumber(card: Int) {
+        employeesService.checkByCard(card)
+        state.cardNumber = card
+        openSlot()
     }
 
     override fun setQrCode(qrCode: String): Boolean {
@@ -32,6 +29,7 @@ class SlotServiceImpl(
             if (opener.open(state.qrCode)) {
                 logsService.log(state.qrCode, state.cardNumber)
             }
+            state.reset()
         }
     }
 

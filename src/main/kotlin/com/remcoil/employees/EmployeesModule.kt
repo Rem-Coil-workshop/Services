@@ -18,13 +18,15 @@ fun Application.employeeModule() {
             }
 
             get("/id/{id}") {
-                val id = call.parameters["id"]!!.toInt()
-                call.respond(service.getById(id))
+                call.safetyReceive("id") { id ->
+                    call.respond(service.getById(id.toInt()))
+                }
             }
 
             get("/number/{number}") {
-                val number = call.parameters["number"]!!.toInt()
-                call.respond(service.getByEmployeeNumber(number))
+                call.safetyReceive("number") { number ->
+                    call.respond(service.getByEmployeeNumber(number.toInt()))
+                }
             }
 
             post {

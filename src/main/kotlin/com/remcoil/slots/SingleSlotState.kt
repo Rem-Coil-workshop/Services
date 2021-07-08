@@ -8,12 +8,12 @@ class SingleSlotState : SlotState {
 
     override var cardNumber: Int = DEFAULT_CARD_VALUE
         set(card) {
-            if (field == DEFAULT_CARD_VALUE) field = card
+            if (field == DEFAULT_CARD_VALUE || card == DEFAULT_CARD_VALUE) field = card
         }
 
     override var qrCode: String = DEFAULT_QR_CODE_VALUE
         set(code) {
-            if (field == DEFAULT_QR_CODE_VALUE) field = code
+            if (field == DEFAULT_QR_CODE_VALUE || code == DEFAULT_QR_CODE_VALUE) field = code
         }
 
     override val isReady get() =

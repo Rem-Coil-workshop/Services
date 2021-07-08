@@ -1,5 +1,6 @@
 package com.remcoil.utils
 
+import com.remcoil.base.InfoException
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.request.*
@@ -11,8 +12,8 @@ suspend inline fun <reified T : Any> ApplicationCall.safetyReceive(onCorrectResu
             ?.let(onCorrectResult)
             ?: respond(HttpStatusCode.BadRequest)
 
-    } catch (e: Exception) { // TODO: 06.07.2021 Change exception type
-        application.environment.log.error(e.message)
+    } catch (e: InfoException) {
+        logThrowable(e)
         respond(HttpStatusCode.BadRequest)
     }
 }
@@ -23,8 +24,12 @@ suspend inline fun ApplicationCall.safetyReceive(parameterName: String, onCorrec
             ?.let(onCorrectResult)
             ?: respond(HttpStatusCode.BadRequest)
 
-    } catch (e: Exception) { // TODO: 06.07.2021 Change exception type
-        application.environment.log.error(e.message)
+    } catch (e: InfoException) {
+        logThrowable(e)
         respond(HttpStatusCode.BadRequest)
     }
+}
+
+fun ApplicationCall.logThrowable(e: Throwable) {
+    application.environment.log.error("${e.message} (${e.javaClass.name})")
 }

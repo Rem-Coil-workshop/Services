@@ -14,16 +14,19 @@ class BoxesService(
     fun updateBox(box: Box): Box {
         val boxFromDB = boxesDao.getBoxById(box.id)
         if (boxFromDB.number != box.number) throw NoSuchBoxException()
+        if (!isTaskUnique(box.taskId)) throw TaskNotUniqueException()
         return boxesDao.updateBox(box)
     }
 
+    private fun isTaskUnique(taskId: Int?): Boolean =
+        taskId == null || boxesDao.getBoxByTaskId(taskId) == null
+
+
     fun getByQrCode(qrCode: String): Box {
         val task = tasksService.getByQrCode(qrCode)
-            ?: throw SlotOpenException("No task with such qr code (qr code: $qrCode)")
+            ?: throw SlotOpenException("Не существует задачи с таким qr кодом (qr code: $qrCode)")
 
-        return getByTaskId(task.id)
-            ?: throw SlotOpenException("No box with such task (task id: ${task.id})")
+        return boxesDao.getBoxByTaskId(task.id)
+            ?: throw SlotOpenException("Ни в одном ящике не хранится такая задача (task id: ${task.id})")
     }
-
-    private fun getByTaskId(taskId: Int): Box? = boxesDao.getBoxByTaskId(taskId)
 }
