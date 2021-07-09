@@ -16,6 +16,7 @@ suspend fun <T> safetySuspendTransaction(
     try {
         return@withContext transaction(db, statement)
     } catch (e: ExposedSQLException) {
+        logger.debug("${e.message}")
         throw DatabaseException(errorMessage)
     }
 }

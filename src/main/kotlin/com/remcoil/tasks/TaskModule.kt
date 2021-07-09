@@ -1,5 +1,7 @@
 package com.remcoil.tasks
 
+import com.remcoil.base.TextMessage
+import com.remcoil.utils.logger
 import com.remcoil.utils.safetyReceive
 import io.ktor.application.*
 import io.ktor.http.*
@@ -24,8 +26,7 @@ fun Application.tasksModuleOld() {
             }
 
             get("/delete/{taskName}") {
-                val deleteResult = service.deleteTask(call.parameters["taskName"]!!)
-                call.application.environment.log.info(deleteResult.toString())
+                service.deleteTask(call.parameters["taskName"]!!)
                 call.respond(HttpStatusCode.NoContent)
             }
         }
@@ -43,14 +44,14 @@ fun Application.tasksModule() {
 
             post {
                 call.safetyReceive<TaskResponse> { task ->
-                    call.respond(service.addTask(task.name))
+                    call.respond(service.addTask(task.qrCode))
                 }
             }
 
             delete {
                 call.safetyReceive<TaskResponse> { task ->
-                    service.deleteTask(task.name)
-                    call.respond(HttpStatusCode.NoContent)
+                    service.deleteTask(task.qrCode)
+                    call.respond(TextMessage("Задача удалена"))
                 }
             }
         }
@@ -58,4 +59,4 @@ fun Application.tasksModule() {
 }
 
 @Serializable
-data class TaskResponse(val name: String)
+data class TaskResponse(val qrCode: String)

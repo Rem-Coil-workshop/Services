@@ -26,14 +26,15 @@ class BoxesDao(private val database: Database) {
             .map(::extractBox)
     }
 
-    suspend fun createBox(box: BoxInfo): Box = safetySuspendTransaction(database, "Значение номера ящика не уникально") {
-        val id = Boxes.insertAndGetId {
-            it[number] = box.number
-            if (box.taskId != null) it[taskId] = EntityID(box.taskId, Tasks)
-        }
+    suspend fun createBox(box: BoxInfo): Box =
+        safetySuspendTransaction(database, "Значение номера ящика не уникально") {
+            val id = Boxes.insertAndGetId {
+                it[number] = box.number
+                if (box.taskId != null) it[taskId] = EntityID(box.taskId, Tasks)
+            }
 
-        Box(id.value, box.number, box.taskId)
-    }
+            Box(id.value, box.number, box.taskId)
+        }
 
     suspend fun updateBox(box: Box): Box = safetySuspendTransaction(database) {
         Boxes.update({ Boxes.id eq box.id }) {
