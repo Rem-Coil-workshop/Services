@@ -41,9 +41,9 @@ class SingleSlotState(
     }
 
     override suspend fun reset() {
+        logger.info("Сброс значений")
         qrCode = DEFAULT_QR_CODE_VALUE
         cardNumber = DEFAULT_CARD_VALUE
         led.turnOff()
-        logger.info("Сброс значений")
     }
 }
