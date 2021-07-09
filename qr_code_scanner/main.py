@@ -4,7 +4,7 @@ import time
 import requests
 import logger_config
 from config import QR_URL, HEADERS, SLEEP_TIME
-from hardware_manipulation import listen_changes
+from hardware_manipulation import listen_changes, set_up
 
 
 def send_request(qr_code: str):
@@ -15,6 +15,7 @@ def send_request(qr_code: str):
 
 
 if __name__ == '__main__':
+    set_up()
     logger_config.configure()
     logging.info("Сервис Qr Scanner начал работу")
     while True:
