@@ -1,25 +1,23 @@
-import traceback
-
-import RPi.GPIO as GPIO
+import logging
 import requests
-
-from config import BUTTON_PIN, BUTTON_URL
-
-
-GPIO.setmode(GPIO.BOARD)
-GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+import logger_config
+from config import BUTTON_URL
+from hardware_manipulation import listen_changes, set_up
 
 
-def read_button():
-    button_state = GPIO.input(BUTTON_PIN)
-    if not button_state:
-        r = requests.get(BUTTON_URL)
-        print(r.content)
+def send_request():
+    answer = requests.get(BUTTON_URL)
+    logging.info("Ответ сервера: " + str(answer.status_code))
 
 
 if __name__ == '__main__':
+    set_up()
+    logger_config.configure()
+    logging.info("Сервис Button начал работу")
     while True:
         try:
-            read_button()
+            if listen_changes():
+                logging.info("Нажали кнопку")
+                send_request()
         except Exception:
-            traceback.print_exc()
+            logging.info("Ошибка соединения с сервером")

@@ -1,34 +1,26 @@
 import json
+import logging
 import time
-import traceback
-
 import requests
-import serial
-
-from config import QR_URL, PORT, FREQUENCY, HEADERS
-
-
-def read_qr_number():
-    code = get_qr_code()
-    data = {'qr_task': code}
-    requests.post(QR_URL, data=json.dumps(data), headers=HEADERS)
-    time.sleep(5)
+import logger_config
+from config import QR_URL, HEADERS, SLEEP_TIME
+from hardware_manipulation import listen_changes
 
 
-def get_qr_code() -> str:
-    with serial.Serial(PORT, FREQUENCY) as qr:
-        data = b""
-        current_symbol = b""
-        while current_symbol != b'\r':
-            data += current_symbol
-            current_symbol = qr.read()
-
-    return data.decode("utf-8")
+def send_request(qr_code: str):
+    data = {'qr': qr_code}
+    answer = requests.post(QR_URL, data=json.dumps(data), headers=HEADERS)
+    logging.info("Ответ сервера: " + str(answer.status_code))
+    time.sleep(SLEEP_TIME)
 
 
 if __name__ == '__main__':
+    logger_config.configure()
+    logging.info("Сервис Qr Scanner начал работу")
     while True:
         try:
-            read_qr_number()
+            qr = listen_changes()
+            logging.info("Считано значение " + str(qr))
+            send_request(qr)
         except Exception:
-            traceback.print_exc()
+            logging.info("Ошибка соединения с сервером")

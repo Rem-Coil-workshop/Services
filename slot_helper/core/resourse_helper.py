@@ -1,4 +1,4 @@
-from core.slot_helper import SlotHelper
+from core.slot_helper_hardware import SlotHelper
 
 slot_helper = None
 

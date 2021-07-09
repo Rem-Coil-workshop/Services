@@ -1,36 +1,26 @@
 import json
+import logging
 import time
-import traceback
-
 import requests
-import serial
+import logger_config
+from config import HEADERS, CARD_URL, SLEEP_TIME
+from hardware_manipulation import listen_changes
 
-from config import CARD_URL, PORT, FREQUENCY, HEADERS
 
-
-def read_card_number():
-    code = get_card_number()
+def send_request(code: int):
     data = {'card': code}
-    requests.post(CARD_URL, data=json.dumps(data), headers=HEADERS)
-    time.sleep(5)
-
-
-def get_card_number() -> str:
-    with serial.Serial(PORT, FREQUENCY) as card:
-        data = b''
-        current_byte = b''
-        while current_byte != b'\x03':
-            if current_byte != b'\x02':
-                data += current_byte
-            current_byte = card.read()
-
-    data = ""
-    return str(int(data[2:-2], 16))
+    answer = requests.post(CARD_URL, data=json.dumps(data), headers=HEADERS)
+    logging.info("Ответ сервера: " + str(answer.status_code))
+    time.sleep(SLEEP_TIME)
 
 
 if __name__ == '__main__':
+    logger_config.configure()
+    logging.info("Сервис Card Scanner начал работу")
     while True:
         try:
-            read_card_number()
+            card_code = listen_changes()
+            logging.info("Считано значение " + str(card_code))
+            send_request(card_code)
         except Exception:
-            traceback.print_exc()
+            logging.info("Ошибка соединения с сервером")
