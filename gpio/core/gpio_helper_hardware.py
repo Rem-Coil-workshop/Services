@@ -4,6 +4,11 @@ from app.config import QR_LED_PIN, CARD_LED_PIN
 
 
 class GPIOHelper:
+    def __init__(self):
+        GPIO.setmode(GPIO.BOARD)
+        GPIO.setup(QR_LED_PIN, GPIO.OUT)
+        GPIO.setup(CARD_LED_PIN, GPIO.OUT)
+
     def qr_turn_on(self):
         app.logger.info("Turn qr led")
         self._turn_led(QR_LED_PIN, True)
