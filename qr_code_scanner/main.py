@@ -1,9 +1,11 @@
 import json
 import logging
 import time
+import traceback
+
 import requests
 import logger_config
-from config import QR_URL, HEADERS, SLEEP_TIME
+from config import QR_URL, HEADERS, SLEEP_TIME, MODE_DEV
 from hardware_manipulation import listen_changes, set_up
 
 
@@ -25,3 +27,5 @@ if __name__ == '__main__':
             send_request(qr)
         except Exception:
             logging.info("Ошибка соединения с сервером")
+            if MODE_DEV:
+                traceback.print_exc()

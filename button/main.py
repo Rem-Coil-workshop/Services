@@ -1,13 +1,16 @@
 import logging
+import time
+
 import requests
 import logger_config
-from config import BUTTON_URL
+from config import BUTTON_URL, SLEEP_TIME
 from hardware_manipulation import listen_changes, set_up
 
 
 def send_request():
     answer = requests.get(BUTTON_URL)
     logging.info("Ответ сервера: " + str(answer.status_code))
+    time.sleep(SLEEP_TIME)
 
 
 if __name__ == '__main__':

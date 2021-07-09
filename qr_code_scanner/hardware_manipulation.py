@@ -1,5 +1,7 @@
+import logging
+
 import evdev
-from config import PORT
+from config import PORT, MODE_DEV
 
 device = None
 
@@ -17,14 +19,17 @@ def listen_changes() -> str:
     for event in device.read_loop():
         if event.type == evdev.ecodes.EV_KEY and event.value == 1:
             e_code = event.code - 1
+            if MODE_DEV:
+                logging.info('Считано значение: ' + str(e_code))
             if 1 <= e_code <= 10:
-                digit = 0
+                digit = str(0)
                 if e_code != 10:
-                    digit = e_code
+                    digit = str(e_code)
                 code.append(digit)
             elif e_code == 52:
                 code.append('/')
             elif e_code == 27:
                 data = data.join(code)
+                break
 
     return data

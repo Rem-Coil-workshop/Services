@@ -5,6 +5,7 @@ from app.config import QR_LED_PIN, CARD_LED_PIN
 
 class GPIOHelper:
     def __init__(self):
+        GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(QR_LED_PIN, GPIO.OUT)
         GPIO.setup(CARD_LED_PIN, GPIO.OUT)
