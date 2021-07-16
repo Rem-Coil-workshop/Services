@@ -9,6 +9,10 @@ class SlotServiceImpl(
     private val opener: SlotOpener,
     private val state: SlotState
 ) : SlotService {
+    override suspend fun openByNumber(boxNumber: Int) {
+        opener.openByBoxNumber(boxNumber)
+    }
+
     override suspend fun setCardNumber(card: Int) {
         employeesService.checkByCard(card)
         state.setCardNumber(card)
@@ -26,7 +30,7 @@ class SlotServiceImpl(
 
     private suspend fun openSlot() {
         if (state.isReady) {
-            if (opener.open(state.qrCode)) {
+            if (opener.openByQrCode(state.qrCode)) {
                 logsService.log(state.qrCode, state.cardNumber)
             }
             state.reset()

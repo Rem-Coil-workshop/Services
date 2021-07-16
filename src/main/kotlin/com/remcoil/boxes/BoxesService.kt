@@ -14,6 +14,12 @@ class BoxesService(
         return boxes
     }
 
+    suspend fun getById(id: Int): Box {
+        val box = boxesDao.getBoxById(id)
+        logger.info("Отдал яейку с id ${box.id}")
+        return box
+    }
+
     suspend fun createBox(box: BoxInfo): Box {
         val newBox = boxesDao.createBox(box)
         logger.info("Создана ячейка ${newBox.number}")

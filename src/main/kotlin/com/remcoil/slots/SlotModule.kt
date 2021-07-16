@@ -32,6 +32,13 @@ fun Application.slotModule() {
                 service.resetState()
                 call.respond(HttpStatusCode.NoContent)
             }
+
+            get("/open/{id}") {
+                call.safetyReceive("id") { id ->
+                    service.openByNumber(id.toInt())
+                    call.respond(HttpStatusCode.NoContent)
+                }
+            }
         }
     }
 }

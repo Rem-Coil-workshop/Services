@@ -19,11 +19,21 @@ class SlotOpenerImpl(
 ) : SlotOpener {
     private val logger = LoggerFactory.getLogger(SlotOpener::class.java)
 
-    override suspend fun open(qrCode: String): Boolean {
+    override suspend fun openByQrCode(qrCode: String): Boolean {
         val box = boxesService.getByQrCode(qrCode)
-        return withContext(Dispatchers.IO) {
+        return safetyOpen(box.number)
+    }
+
+    override suspend fun openByBoxNumber(id: Int): Boolean {
+        val box = boxesService.getById(id)
+        return safetyOpen(box.number)
+    }
+
+    private suspend fun safetyOpen(boxNumber: Int): Boolean {
+        return withContext(Dispatchers.IO)
+        {
             try {
-                openSlotByBoxNumber(box.number)
+                open(boxNumber)
             } catch (e: ClientRequestException) {
                 logger.info("Конечная точка для сервиса недоступна или формат неверный (${e.response.status.value})")
                 false
@@ -34,13 +44,12 @@ class SlotOpenerImpl(
         }
     }
 
-    private suspend fun openSlotByBoxNumber(boxNumber: Int): Boolean {
+    private suspend fun open(boxNumber: Int): Boolean {
         val response = client.post<HttpResponse>(urlString = routesConfig.opener) {
             contentType(ContentType.Application.Json)
             body = SlotInfo(boxNumber)
         }
         val result = response.status.isSuccess()
-//        val result = true
         if (result) logger.info("Открыт ящик №$boxNumber")
         return result
     }

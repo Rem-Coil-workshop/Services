@@ -62,6 +62,8 @@ private fun Application.main() {
     install(CORS) {
         exposeHeader(HttpHeaders.AccessControlAllowOrigin)
         anyHost()
+        allowNonSimpleContentTypes = true
+        allowCredentials = true
     }
 }
 
