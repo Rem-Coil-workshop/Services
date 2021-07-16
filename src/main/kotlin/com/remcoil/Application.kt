@@ -9,6 +9,7 @@ import com.remcoil.employees.employeeModule
 import com.remcoil.employees.employeesComponents
 import com.remcoil.logs.logsComponents
 import com.remcoil.logs.logsModule
+import com.remcoil.site.siteModule
 import com.remcoil.slots.slotModule
 import com.remcoil.slots.slotsComponent
 import com.remcoil.tasks.tasksComponents
@@ -52,6 +53,7 @@ fun main() {
         configureSerialization()
         configureMetrics()
         modules()
+        siteModule()
         diComponents(config)
     }
 
