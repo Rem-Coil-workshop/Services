@@ -1,10 +1,12 @@
 package com.remcoil.slots
 
+import com.remcoil.boxes.BoxesService
 import com.remcoil.employees.EmployeesService
 import com.remcoil.logs.LogsService
 
 class SlotServiceImpl(
     private val employeesService: EmployeesService,
+    private val boxesService: BoxesService,
     private val logsService: LogsService,
     private val opener: SlotOpener,
     private val state: SlotState
@@ -20,7 +22,7 @@ class SlotServiceImpl(
     }
 
     override suspend fun setQrCode(qrCode: String): Boolean {
-        val isCodeValid = true // TODO: 08.07.2021 Добавить логику проверки валиндности кода
+        val isCodeValid = boxesService.isQrCodeExist(qrCode)
         if (isCodeValid) {
             state.setQrNumber(qrCode)
             openSlot()

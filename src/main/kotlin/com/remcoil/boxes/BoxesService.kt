@@ -59,4 +59,13 @@ class BoxesService(
         logger.info(message)
         return SlotOpenException(message)
     }
+
+    suspend fun isQrCodeExist(qrCode: String): Boolean {
+        return try {
+            getByQrCode(qrCode)
+            true
+        } catch (e: SlotOpenException) {
+            false
+        }
+    }
 }

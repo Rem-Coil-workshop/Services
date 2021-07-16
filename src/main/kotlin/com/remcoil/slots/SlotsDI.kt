@@ -6,7 +6,7 @@ import org.kodein.di.instance
 import org.kodein.di.singleton
 
 fun DI.Builder.slotsComponent() {
-    bind<SlotService>() with singleton { SlotServiceImpl(instance(), instance(), instance(), instance()) }
+    bind<SlotService>() with singleton { SlotServiceImpl(instance(), instance(), instance(), instance(), instance()) }
 
     bind<SlotState>() with singleton { SingleSlotState(instance()) }
 
