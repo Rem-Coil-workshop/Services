@@ -1,4 +1,4 @@
-MODE_DEV = True
+MODE_DEV = False
 
 CARD_URL = 'http://127.0.0.1:80/v1/slots/card'
 HEADERS = {'Content-Type': 'application/json'}
