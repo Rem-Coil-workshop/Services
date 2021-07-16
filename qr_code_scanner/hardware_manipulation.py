@@ -28,6 +28,8 @@ def listen_changes() -> str:
                 code.append(digit)
             elif e_code == 52:
                 code.append('/')
+            elif e_code == 11:
+                code.append('-')
             elif e_code == 27:
                 data = data.join(code)
                 break
