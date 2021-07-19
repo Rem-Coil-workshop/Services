@@ -11,17 +11,13 @@ class SlotServiceImpl(
     private val opener: SlotOpener,
     private val state: SlotState
 ) : SlotService {
-    override suspend fun openByNumber(boxNumber: Int) {
-        opener.openByBoxNumber(boxNumber)
-    }
-
-    override suspend fun setCardNumber(card: Int) {
+    override suspend fun onCardNumberEntered(card: Int) {
         employeesService.checkByCard(card)
         state.setCardNumber(card)
         openSlot()
     }
 
-    override suspend fun setQrCode(qrCode: String): Boolean {
+    override suspend fun onQrCodeEntered(qrCode: String): Boolean {
         val isCodeValid = boxesService.isQrCodeExist(qrCode)
         if (isCodeValid) {
             state.setQrNumber(qrCode)

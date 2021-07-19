@@ -2,6 +2,7 @@ package com.remcoil
 
 import com.remcoil.boxes.boxesComponents
 import com.remcoil.boxes.boxesModule
+import com.remcoil.cardWebsocket.cardWebsocketModule
 import com.remcoil.config.AppConfig
 import com.remcoil.config.RoutesConfig
 import com.remcoil.database.migrate
@@ -24,12 +25,14 @@ import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
 import io.ktor.features.*
 import io.ktor.http.*
+import io.ktor.http.cio.websocket.*
 import io.ktor.metrics.micrometer.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.serialization.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
+import io.ktor.websocket.*
 import io.micrometer.core.instrument.binder.jvm.JvmGcMetrics
 import io.micrometer.core.instrument.binder.jvm.JvmMemoryMetrics
 import io.micrometer.core.instrument.binder.system.ProcessorMetrics
@@ -55,12 +58,20 @@ fun main() {
         modules()
         siteModule()
         diComponents(config)
+        cardWebsocketModule()
     }
 
     engine.start(wait = true)
 }
 
 private fun Application.main() {
+    install(WebSockets) {
+        pingPeriod = Duration.ofSeconds(60) // Disabled (null) by default
+        timeout = Duration.ofSeconds(15)
+        maxFrameSize = Long.MAX_VALUE // Disabled (max value). The connection will be closed if surpassed this length.
+        masking = false
+    }
+
     install(CORS) {
         exposeHeader(HttpHeaders.AccessControlAllowOrigin)
         anyHost()

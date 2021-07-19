@@ -11,19 +11,20 @@ import org.kodein.di.ktor.closestDI
 
 fun Application.slotModule() {
     val service: SlotService by closestDI().instance()
+    val opener: SlotOpener by closestDI().instance()
 
     routing {
         route("/v1/slots") {
             post("/card") {
                 call.safetyReceive<CardCode> { card ->
-                    service.setCardNumber(card.card)
+                    service.onCardNumberEntered(card.card)
                     call.respond(HttpStatusCode.NoContent)
                 }
             }
 
             post("/qr") {
                 call.safetyReceive<QrCode> { code ->
-                    if (service.setQrCode(code.qr)) call.respond(HttpStatusCode.NoContent)
+                    if (service.onQrCodeEntered(code.qr)) call.respond(HttpStatusCode.NoContent)
                     else call.respond(HttpStatusCode.BadRequest)
                 }
             }
@@ -35,7 +36,7 @@ fun Application.slotModule() {
 
             get("/open/{id}") {
                 call.safetyReceive("id") { id ->
-                    service.openByNumber(id.toInt())
+                    opener.openByBoxNumber(id.toInt())
                     call.respond(HttpStatusCode.NoContent)
                 }
             }
