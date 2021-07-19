@@ -1,7 +1,6 @@
 package com.remcoil.tasks
 
 import com.remcoil.base.TextMessage
-import com.remcoil.utils.logger
 import com.remcoil.utils.safetyReceive
 import io.ktor.application.*
 import io.ktor.http.*
@@ -48,9 +47,9 @@ fun Application.tasksModule() {
                 }
             }
 
-            delete {
-                call.safetyReceive<TaskResponse> { task ->
-                    service.deleteTask(task.qrCode)
+            delete("/{id}") {
+                call.safetyReceive("id") { id ->
+                    service.deleteTask(id.toInt())
                     call.respond(TextMessage("Задача удалена"))
                 }
             }

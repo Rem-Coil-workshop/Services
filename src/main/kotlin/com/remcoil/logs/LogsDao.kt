@@ -1,6 +1,6 @@
 package com.remcoil.logs
 
-import com.remcoil.employees.EmployeeWithId
+import com.remcoil.employees.Employee
 import com.remcoil.tasks.Task
 import com.remcoil.utils.safetySuspendTransaction
 import org.jetbrains.exposed.sql.Database
@@ -42,7 +42,7 @@ class LogsDao(private val database: Database) {
         }
     }
 
-    suspend fun addLog(task: Task, employee: EmployeeWithId): Log =
+    suspend fun addLog(task: Task, employee: Employee): Log =
         safetySuspendTransaction(database, "Ошибка в указании рабочего или задачи, возможно их они не существуют.") {
             val time = LocalDateTime.now()
             val id = Logs.insertAndGetId {

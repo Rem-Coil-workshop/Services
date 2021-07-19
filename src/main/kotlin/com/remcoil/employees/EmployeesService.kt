@@ -3,25 +3,25 @@ package com.remcoil.employees
 import com.remcoil.utils.logger
 
 class EmployeesService(private val dao: EmployeesDao) {
-    suspend fun getAll(): List<EmployeeWithId> {
+    suspend fun getAll(): List<Employee> {
         val employees = dao.getAll()
         logger.info("Отдано ${employees.size} сотрудников")
         return employees
     }
 
-    suspend fun getById(id: Int):EmployeeWithId {
+    suspend fun getById(id: Int): Employee {
         val employee = dao.getEmployeeById(id)
         logger.info("Отдан рабочий ${employee.employeeNumber}")
         return employee
     }
 
-    suspend fun getByEmployeeNumber(number: Int): EmployeeWithId {
+    suspend fun getByEmployeeNumber(number: Int): Employee {
         val employee = dao.getEmployeeByNumber(number)
         logger.info("Отдан рабочий ${employee.employeeNumber}")
         return employee
     }
 
-    suspend fun addEmployee(employee: Employee): EmployeeWithId {
+    suspend fun addEmployee(employee: Employee): Employee {
         val newEmployee = dao.addEmployee(employee)
         logger.info("Создан рабочий ${newEmployee.employeeNumber}")
         return newEmployee

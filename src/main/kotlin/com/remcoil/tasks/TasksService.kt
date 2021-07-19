@@ -21,8 +21,13 @@ class TasksService(private val dao: TasksDao) {
         return task
     }
 
-    suspend fun deleteTask(taskName: String) {
-        dao.removeTask(taskName)
-        logger.info("Задача $taskName удалена")
+    suspend fun deleteTask(taskId: Int) {
+        dao.removeTaskById(taskId)
+        logger.info("Задача $taskId удалена")
+    }
+
+    suspend fun deleteTask(qrCode: String) {
+        dao.removeTaskByQrCode(qrCode)
+        logger.info("Задача $qrCode удалена")
     }
 }

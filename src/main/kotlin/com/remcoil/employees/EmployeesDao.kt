@@ -4,13 +4,13 @@ import com.remcoil.utils.safetySuspendTransaction
 import org.jetbrains.exposed.sql.*
 
 class EmployeesDao(private val database: Database) {
-    suspend fun getAll(): List<EmployeeWithId> = safetySuspendTransaction(database) {
+    suspend fun getAll(): List<Employee> = safetySuspendTransaction(database) {
         Employees
             .selectAll()
             .map(::extractEmployee)
     }
 
-    suspend fun getEmployeeById(id: Int): EmployeeWithId = safetySuspendTransaction(database) {
+    suspend fun getEmployeeById(id: Int): Employee = safetySuspendTransaction(database) {
         Employees
             .select { Employees.id eq id }
             .map(::extractEmployee)
@@ -18,7 +18,7 @@ class EmployeesDao(private val database: Database) {
             ?: throw NoSuchEmployeeException("Сотрудника с таким id не существует")
     }
 
-    suspend fun getEmployeeByNumber(number: Int): EmployeeWithId = safetySuspendTransaction(database) {
+    suspend fun getEmployeeByNumber(number: Int): Employee = safetySuspendTransaction(database) {
         Employees
             .select { Employees.employeeNumber eq number }
             .map(::extractEmployee)
@@ -27,7 +27,7 @@ class EmployeesDao(private val database: Database) {
     }
 
 
-    suspend fun addEmployee(employee: Employee): EmployeeWithId =
+    suspend fun addEmployee(employee: Employee): Employee =
         safetySuspendTransaction(database, "Введено не уникальное значение номера сотрудника") {
             val id = Employees.insertAndGetId {
                 it[employeeNumber] = employee.employeeNumber
@@ -35,7 +35,7 @@ class EmployeesDao(private val database: Database) {
                 it[surname] = employee.surname
             }
 
-            EmployeeWithId(id.value, employee)
+            employee.copy(id = id.value)
         }
 
     suspend fun removeEmployeeById(id: Int) = safetySuspendTransaction(database) {
@@ -48,7 +48,7 @@ class EmployeesDao(private val database: Database) {
         if (resultCode == 0) throw NoSuchEmployeeException("Сотрудника с таким номером не существует")
     }
 
-    private fun extractEmployee(row: ResultRow): EmployeeWithId = EmployeeWithId(
+    private fun extractEmployee(row: ResultRow): Employee = Employee(
         row[Employees.id].value,
         row[Employees.employeeNumber],
         row[Employees.name],

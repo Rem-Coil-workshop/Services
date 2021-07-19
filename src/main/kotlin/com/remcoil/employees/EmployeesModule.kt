@@ -17,15 +17,9 @@ fun Application.employeeModule() {
                 call.respond(service.getAll())
             }
 
-            get("/id/{id}") {
+            get("/{id}") {
                 call.safetyReceive("id") { id ->
                     call.respond(service.getById(id.toInt()))
-                }
-            }
-
-            get("/number/{number}") {
-                call.safetyReceive("number") { number ->
-                    call.respond(service.getByEmployeeNumber(number.toInt()))
                 }
             }
 
@@ -35,16 +29,9 @@ fun Application.employeeModule() {
                 }
             }
 
-            delete("/id/{id}") {
+            delete("/{id}") {
                 call.safetyReceive("id") { id ->
                     service.removeById(id.toInt())
-                    call.respond(HttpStatusCode.NoContent)
-                }
-            }
-
-            delete("/number/{number}") {
-                call.safetyReceive("number") { number ->
-                    service.removeByEmployeeNumber(number.toInt())
                     call.respond(HttpStatusCode.NoContent)
                 }
             }

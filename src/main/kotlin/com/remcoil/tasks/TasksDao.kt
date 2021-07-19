@@ -30,7 +30,12 @@ class TasksDao(private val database: Database) {
         Task(id.value, qrCode)
     }
 
-    suspend fun removeTask(qrCode: String) = safetySuspendTransaction(database) {
+    suspend fun removeTaskById(id: Int) = safetySuspendTransaction(database) {
+        val resultCode = Tasks.deleteWhere { Tasks.id eq id }
+        if (resultCode == 0) throw NoSuchTaskException("Задача с таким кодом не существет")
+    }
+
+    suspend fun removeTaskByQrCode(qrCode: String) = safetySuspendTransaction(database) {
         val resultCode = Tasks.deleteWhere { Tasks.qrCode eq qrCode }
         if (resultCode == 0) throw NoSuchTaskException("Задача с таким кодом не существет")
     }
