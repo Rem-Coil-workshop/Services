@@ -1,4 +1,4 @@
-package com.remcoil.slots
+package com.remcoil.di.slot
 
 import com.remcoil.useCase.service.slot.SlotService
 import com.remcoil.useCase.service.slot.SlotServiceImpl

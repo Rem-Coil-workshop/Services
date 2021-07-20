@@ -45,11 +45,6 @@ class EmployeesDao(private val database: Database) {
         if (resultCode == 0) throw NoSuchEmployeeException("Сотрудника с таким id не существует")
     }
 
-    suspend fun removeEmployeeByEmployeeNumber(number: Int) = safetySuspendTransaction(database) {
-        val resultCode = Employees.deleteWhere { Employees.employeeNumber eq number }
-        if (resultCode == 0) throw NoSuchEmployeeException("Сотрудника с таким номером не существует")
-    }
-
     private fun extractEmployee(row: ResultRow): Employee = Employee(
         row[Employees.id].value,
         row[Employees.employeeNumber],

@@ -1,4 +1,4 @@
-package com.remcoil.cardWebsocket
+package com.remcoil.presentation.module.card
 
 import io.ktor.application.*
 import io.ktor.http.cio.websocket.*

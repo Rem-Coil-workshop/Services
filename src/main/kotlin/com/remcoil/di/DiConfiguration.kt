@@ -1,12 +1,12 @@
 package com.remcoil.di
 
-import com.remcoil.boxes.boxesComponents
+import com.remcoil.di.box.boxesComponents
 import com.remcoil.config.AppConfig
 import com.remcoil.config.RoutesConfig
 import com.remcoil.di.employee.employeesComponents
 import com.remcoil.di.log.logsComponents
-import com.remcoil.slots.slotsComponent
-import com.remcoil.tasks.tasksComponents
+import com.remcoil.di.slot.slotsComponent
+import com.remcoil.di.task.tasksComponents
 import io.ktor.application.*
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
