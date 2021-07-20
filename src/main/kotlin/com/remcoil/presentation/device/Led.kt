@@ -30,7 +30,7 @@ class Led(
         val url = config.led + endPoint
         coroutineScope {
             launch(Dispatchers.IO) {
-                client.get<HttpResponse>(urlString = url).status.isSuccess()
+//                client.get<HttpResponse>(urlString = url).status.isSuccess()
             }
         }
     }

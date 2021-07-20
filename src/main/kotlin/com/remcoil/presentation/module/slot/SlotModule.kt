@@ -2,8 +2,8 @@ package com.remcoil.presentation.module.slot
 
 import com.remcoil.data.model.slot.CardCode
 import com.remcoil.data.model.slot.QrCode
+import com.remcoil.domain.controller.slot.SlotController
 import com.remcoil.presentation.device.SlotOpener
-import com.remcoil.domain.service.slot.SlotService
 import com.remcoil.utils.safetyReceive
 import io.ktor.application.*
 import io.ktor.http.*
@@ -13,27 +13,27 @@ import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
 
 fun Application.slotModule() {
-    val service: SlotService by closestDI().instance()
+    val controller: SlotController by closestDI().instance()
     val opener: SlotOpener by closestDI().instance()
 
     routing {
         route("/v1/slots") {
             post("/card") {
                 call.safetyReceive<CardCode> { card ->
-                    service.onCardNumberEntered(card.card)
+                    controller.setCard(card.card)
                     call.respond(HttpStatusCode.NoContent)
                 }
             }
 
             post("/qr") {
                 call.safetyReceive<QrCode> { code ->
-                    service.onQrCodeEntered(code.qr)
+                    controller.setQr(code.qr)
                     call.respond(HttpStatusCode.NoContent)
                 }
             }
 
             get("/reset") {
-                service.resetState()
+                controller.reset()
                 call.respond(HttpStatusCode.NoContent)
             }
 

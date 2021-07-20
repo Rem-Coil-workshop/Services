@@ -1,5 +1,6 @@
 package com.remcoil.di.slot
 
+import com.remcoil.domain.controller.slot.SlotController
 import com.remcoil.domain.service.slot.SlotService
 import com.remcoil.domain.service.slot.SlotServiceImpl
 import com.remcoil.domain.useCase.SlotValidator
@@ -11,9 +12,11 @@ import org.kodein.di.instance
 import org.kodein.di.singleton
 
 fun DI.Builder.slotsComponent() {
-    bind<SlotValidator>() with singleton { SlotValidatorImpl(instance(), instance()) }
+    bind<SlotController>() with singleton { SlotController(instance()) }
 
     bind<SlotService>() with singleton { SlotServiceImpl(instance(), instance(), instance(), instance()) }
+
+    bind<SlotValidator>() with singleton { SlotValidatorImpl(instance(), instance()) }
 
     bind<SlotState>() with singleton { SlotStateImpl(instance()) }
 
