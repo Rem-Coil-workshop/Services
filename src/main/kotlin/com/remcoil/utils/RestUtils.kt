@@ -1,7 +1,7 @@
 package com.remcoil.utils
 
-import com.remcoil.base.InfoException
-import com.remcoil.base.TextMessage
+import com.remcoil.exception.base.InfoException
+import com.remcoil.data.model.base.TextMessage
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.request.*
