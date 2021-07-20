@@ -1,6 +1,6 @@
 package com.remcoil.presentation.module.log
 
-import com.remcoil.useCase.service.log.LogsService
+import com.remcoil.domain.service.log.LogsService
 import com.remcoil.data.model.log.LogData
 import com.remcoil.utils.safetyReceive
 import io.ktor.application.*

@@ -1,7 +1,7 @@
 package com.remcoil.di.box
 
 import com.remcoil.data.database.box.BoxesDao
-import com.remcoil.useCase.service.box.BoxesService
+import com.remcoil.domain.service.box.BoxesService
 import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.instance

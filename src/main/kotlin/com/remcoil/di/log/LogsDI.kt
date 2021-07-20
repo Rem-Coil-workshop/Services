@@ -1,7 +1,7 @@
 package com.remcoil.di.log
 
 import com.remcoil.data.database.log.LogsDao
-import com.remcoil.useCase.service.log.LogsService
+import com.remcoil.domain.service.log.LogsService
 import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.instance

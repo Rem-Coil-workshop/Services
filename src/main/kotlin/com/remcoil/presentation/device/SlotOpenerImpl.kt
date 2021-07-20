@@ -1,6 +1,6 @@
 package com.remcoil.presentation.device
 
-import com.remcoil.useCase.service.box.BoxesService
+import com.remcoil.domain.service.box.BoxesService
 import com.remcoil.config.RoutesConfig
 import com.remcoil.data.model.slot.SlotInfo
 import io.ktor.client.*

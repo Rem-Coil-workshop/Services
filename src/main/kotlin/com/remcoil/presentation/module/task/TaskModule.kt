@@ -2,7 +2,7 @@ package com.remcoil.presentation.module.task
 
 import com.remcoil.data.model.base.TextMessage
 import com.remcoil.data.model.task.TaskResponse
-import com.remcoil.useCase.service.task.TasksService
+import com.remcoil.domain.service.task.TasksService
 import com.remcoil.utils.safetyReceive
 import io.ktor.application.*
 import io.ktor.http.*

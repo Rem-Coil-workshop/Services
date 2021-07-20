@@ -1,4 +1,4 @@
-package com.remcoil.useCase.service.log
+package com.remcoil.domain.service.log
 
 import com.remcoil.data.database.employee.EmployeesDao
 import com.remcoil.data.database.log.LogsDao

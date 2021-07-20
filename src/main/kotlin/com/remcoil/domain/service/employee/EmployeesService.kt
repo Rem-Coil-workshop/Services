@@ -1,4 +1,4 @@
-package com.remcoil.useCase.service.employee
+package com.remcoil.domain.service.employee
 
 import com.remcoil.data.database.employee.EmployeesDao
 import com.remcoil.data.model.employee.Employee

@@ -1,7 +1,7 @@
 package com.remcoil.presentation.module.box
 
 import com.remcoil.data.model.box.Box
-import com.remcoil.useCase.service.box.BoxesService
+import com.remcoil.domain.service.box.BoxesService
 import com.remcoil.utils.safetyReceive
 import io.ktor.application.*
 import io.ktor.response.*

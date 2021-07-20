@@ -1,7 +1,7 @@
 package com.remcoil.presentation.module.employee
 
 import com.remcoil.data.model.employee.Employee
-import com.remcoil.useCase.service.employee.EmployeesService
+import com.remcoil.domain.service.employee.EmployeesService
 import com.remcoil.utils.safetyReceive
 import io.ktor.application.*
 import io.ktor.http.*

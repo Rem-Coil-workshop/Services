@@ -1,7 +1,7 @@
 package com.remcoil.di.employee
 
 import com.remcoil.data.database.employee.EmployeesDao
-import com.remcoil.useCase.service.employee.EmployeesService
+import com.remcoil.domain.service.employee.EmployeesService
 import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.instance

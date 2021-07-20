@@ -3,7 +3,7 @@ package com.remcoil.presentation.module.slot
 import com.remcoil.data.model.slot.CardCode
 import com.remcoil.data.model.slot.QrCode
 import com.remcoil.presentation.device.SlotOpener
-import com.remcoil.useCase.service.slot.SlotService
+import com.remcoil.domain.service.slot.SlotService
 import com.remcoil.utils.safetyReceive
 import io.ktor.application.*
 import io.ktor.http.*
@@ -27,8 +27,8 @@ fun Application.slotModule() {
 
             post("/qr") {
                 call.safetyReceive<QrCode> { code ->
-                    if (service.onQrCodeEntered(code.qr)) call.respond(HttpStatusCode.NoContent)
-                    else call.respond(HttpStatusCode.BadRequest)
+                    service.onQrCodeEntered(code.qr)
+                    call.respond(HttpStatusCode.NoContent)
                 }
             }
 

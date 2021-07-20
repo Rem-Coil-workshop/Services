@@ -1,31 +1,26 @@
-package com.remcoil.useCase.service.slot
+package com.remcoil.domain.service.slot
 
-import com.remcoil.useCase.service.box.BoxesService
-import com.remcoil.useCase.service.employee.EmployeesService
-import com.remcoil.useCase.service.log.LogsService
+import com.remcoil.domain.service.log.LogsService
+import com.remcoil.domain.useCase.SlotValidator
 import com.remcoil.presentation.device.SlotOpener
 import com.remcoil.presentation.device.SlotState
 
 class SlotServiceImpl(
-    private val employeesService: EmployeesService,
-    private val boxesService: BoxesService,
+    private val validator: SlotValidator,
     private val logsService: LogsService,
     private val opener: SlotOpener,
     private val state: SlotState
 ) : SlotService {
     override suspend fun onCardNumberEntered(card: Int) {
-        employeesService.checkByCard(card)
+        validator.validateCard(card)
         state.setCardNumber(card)
         openSlot()
     }
 
-    override suspend fun onQrCodeEntered(qrCode: String): Boolean {
-        val isCodeValid = boxesService.isQrCodeExist(qrCode)
-        if (isCodeValid) {
-            state.setQrNumber(qrCode)
-            openSlot()
-        }
-        return isCodeValid
+    override suspend fun onQrCodeEntered(qrCode: String) {
+        validator.validateQr(qrCode)
+        state.setQrNumber(qrCode)
+        openSlot()
     }
 
     private suspend fun openSlot() {

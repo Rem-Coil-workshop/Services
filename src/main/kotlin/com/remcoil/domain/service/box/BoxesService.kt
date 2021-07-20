@@ -1,11 +1,11 @@
-package com.remcoil.useCase.service.box
+package com.remcoil.domain.service.box
 
 import com.remcoil.data.database.box.BoxesDao
 import com.remcoil.exception.box.NoSuchBoxException
 import com.remcoil.exception.box.TaskNotUniqueException
 import com.remcoil.data.model.box.Box
 import com.remcoil.exception.slot.SlotOpenException
-import com.remcoil.useCase.service.task.TasksService
+import com.remcoil.domain.service.task.TasksService
 import com.remcoil.utils.logger
 
 class BoxesService(
@@ -65,14 +65,5 @@ class BoxesService(
     private fun logSlotException(message: String): SlotOpenException {
         logger.info(message)
         return SlotOpenException(message)
-    }
-
-    suspend fun isQrCodeExist(qrCode: String): Boolean {
-        return try {
-            getByQrCode(qrCode)
-            true
-        } catch (e: SlotOpenException) {
-            false
-        }
     }
 }

@@ -1,4 +1,4 @@
-package com.remcoil.useCase.service.task
+package com.remcoil.domain.service.task
 
 import com.remcoil.data.database.task.TasksDao
 import com.remcoil.data.model.task.Task
