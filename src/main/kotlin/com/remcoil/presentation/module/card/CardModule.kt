@@ -2,6 +2,7 @@ package com.remcoil.presentation.module.card
 
 import com.remcoil.domain.controller.slot.CardObserver
 import com.remcoil.domain.controller.slot.SlotController
+import com.remcoil.utils.logger
 import io.ktor.application.*
 import io.ktor.http.cio.websocket.*
 import io.ktor.routing.*
@@ -13,9 +14,11 @@ fun Application.cardModule() {
     val controller: SlotController by closestDI().instance()
 
     routing {
-        webSocket("/websocket") {
+        webSocket("/card") {
+            logger.info("Открыт сокет")
             val observer = object : CardObserver {
                 override suspend fun onCardEntered(card: Int) {
+                    logger.info("Отправлено значение карты $card")
                     outgoing.send(Frame.Text(card.toString()))
                 }
             }
@@ -30,6 +33,7 @@ fun Application.cardModule() {
                     }
                 }
             } finally {
+                logger.info("Закрываем сокет")
                 controller.unsubscribe(observer)
             }
         }
