@@ -7,6 +7,7 @@ import com.remcoil.data.model.user.UserCredentials
 import com.remcoil.exception.user.NoSuchRoleException
 import com.remcoil.exception.auth.NoSuchUserException
 import com.remcoil.exception.auth.WrongPasswordException
+import com.remcoil.utils.logger
 
 class UsersService(
     private val usersDao: UsersDao,
@@ -16,7 +17,10 @@ class UsersService(
         val user = usersDao.getUser(credentials.firstname, credentials.lastname)
             ?: throw NoSuchUserException(credentials.firstname, credentials.lastname)
 
-        return if (user.password == credentials.password) user
+        return if (user.password == credentials.password) {
+            logger.info("Пользователь ${user.firstname} ${user.lastname} авторизован")
+            user
+        }
         else throw WrongPasswordException()
     }
 
@@ -24,6 +28,8 @@ class UsersService(
         val role = rolesDao.getRoleByTitle(credentials.role.uppercase())
             ?: throw NoSuchRoleException("Не существует такой роли пользователя (${credentials.role})")
         val user = User(credentials)
-        return usersDao.createUser(user, role.id)
+        val newUser = usersDao.createUser(user, role.id)
+        logger.info("Пользователь ${user.firstname} ${user.lastname} создан")
+        return newUser
     }
 }
