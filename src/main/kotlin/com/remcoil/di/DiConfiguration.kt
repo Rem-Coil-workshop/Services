@@ -3,10 +3,13 @@ package com.remcoil.di
 import com.remcoil.di.box.boxesComponents
 import com.remcoil.config.AppConfig
 import com.remcoil.config.RoutesConfig
+import com.remcoil.config.SecureConfig
 import com.remcoil.di.employee.employeesComponents
 import com.remcoil.di.log.logsComponents
 import com.remcoil.di.slot.slotsComponent
 import com.remcoil.di.task.tasksComponents
+import com.remcoil.di.user.rolesComponent
+import com.remcoil.di.user.usersComponent
 import io.ktor.application.*
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
@@ -26,6 +29,8 @@ fun Application.diComponents(config: AppConfig) {
         logsComponents()
         boxesComponents()
         slotsComponent()
+        rolesComponent()
+        usersComponent()
     }
 }
 
@@ -33,6 +38,8 @@ private fun DI.Builder.coreComponents(config: AppConfig) {
     bind<AppConfig>() with eagerSingleton { config }
 
     bind<RoutesConfig>() with eagerSingleton { config.routes }
+
+    bind<SecureConfig>() with eagerSingleton { config.secure }
 
     bind<Database>() with eagerSingleton {
         Database.connect(

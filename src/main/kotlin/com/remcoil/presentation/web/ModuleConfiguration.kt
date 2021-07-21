@@ -8,6 +8,7 @@ import com.remcoil.presentation.web.slot.slotModule
 import com.remcoil.presentation.web.task.tasksModule
 import com.remcoil.presentation.web.task.tasksModuleOld
 import com.remcoil.presentation.web.site.siteModule
+import com.remcoil.presentation.web.user.userModule
 import io.ktor.application.*
 
 fun Application.modules() {
@@ -22,4 +23,6 @@ fun Application.modules() {
     slotModule()
 
     cardModule()
+
+    userModule()
 }

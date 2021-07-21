@@ -3,7 +3,7 @@ package com.remcoil
 import com.remcoil.config.AppConfig
 import com.remcoil.data.database.migrate
 import com.remcoil.di.diComponents
-import com.remcoil.presentation.module.modules
+import com.remcoil.presentation.web.modules
 import com.typesafe.config.ConfigFactory
 import io.github.config4k.extract
 import io.ktor.application.*
@@ -23,6 +23,7 @@ import io.micrometer.core.instrument.distribution.DistributionStatisticConfig
 import io.micrometer.prometheus.PrometheusConfig
 import io.micrometer.prometheus.PrometheusMeterRegistry
 import io.prometheus.client.exporter.common.TextFormat
+import kotlinx.serialization.json.Json
 import java.time.Duration
 
 fun main() {
