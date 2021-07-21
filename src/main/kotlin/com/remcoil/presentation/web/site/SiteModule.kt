@@ -1,4 +1,4 @@
-package com.remcoil.presentation.module.site
+package com.remcoil.presentation.web.site
 
 import io.ktor.application.*
 import io.ktor.http.content.*

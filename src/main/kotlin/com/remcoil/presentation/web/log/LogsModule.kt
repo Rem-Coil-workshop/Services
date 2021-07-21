@@ -1,4 +1,4 @@
-package com.remcoil.presentation.module.log
+package com.remcoil.presentation.web.log
 
 import com.remcoil.domain.service.log.LogsService
 import com.remcoil.data.model.log.LogData

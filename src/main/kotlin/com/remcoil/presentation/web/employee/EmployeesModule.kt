@@ -1,4 +1,4 @@
-package com.remcoil.presentation.module.employee
+package com.remcoil.presentation.web.employee
 
 import com.remcoil.data.model.employee.Employee
 import com.remcoil.domain.service.employee.EmployeesService

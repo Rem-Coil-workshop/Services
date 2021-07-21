@@ -1,4 +1,4 @@
-package com.remcoil.presentation.module.box
+package com.remcoil.presentation.web.box
 
 import com.remcoil.data.model.box.Box
 import com.remcoil.domain.service.box.BoxesService

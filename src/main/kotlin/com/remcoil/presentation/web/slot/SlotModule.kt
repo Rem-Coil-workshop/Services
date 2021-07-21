@@ -1,4 +1,4 @@
-package com.remcoil.presentation.module.slot
+package com.remcoil.presentation.web.slot
 
 import com.remcoil.data.model.slot.CardCode
 import com.remcoil.data.model.slot.QrCode

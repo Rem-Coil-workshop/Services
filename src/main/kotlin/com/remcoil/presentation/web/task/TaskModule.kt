@@ -1,4 +1,4 @@
-package com.remcoil.presentation.module.task
+package com.remcoil.presentation.web.task
 
 import com.remcoil.data.model.base.TextMessage
 import com.remcoil.data.model.task.TaskResponse

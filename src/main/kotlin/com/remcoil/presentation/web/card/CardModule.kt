@@ -1,4 +1,4 @@
-package com.remcoil.presentation.module.card
+package com.remcoil.presentation.web.card
 
 import com.remcoil.domain.controller.slot.CardObserver
 import com.remcoil.domain.controller.slot.SlotController
