@@ -13,6 +13,12 @@ class UsersService(
     private val usersDao: UsersDao,
     private val rolesDao: RolesDao,
 ) {
+    suspend fun getAllUsers(): List<User> {
+        val users = usersDao.getAllUsers()
+        logger.info("Отдали всех пользователей")
+        return users
+    }
+
     suspend fun getUser(credentials: UserCredentials): User {
         val user = usersDao.getUser(credentials.firstname, credentials.lastname)
             ?: throw NoSuchUserException(credentials.firstname, credentials.lastname)

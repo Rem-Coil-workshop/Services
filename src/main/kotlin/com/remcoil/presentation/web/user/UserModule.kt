@@ -15,6 +15,11 @@ fun Application.userModule() {
         val service: UsersService by closestDI().instance()
 
         route("/v1/users") {
+            get {
+                val users = service.getAllUsers()
+                call.respond(users)
+            }
+
             post("/sign_in") {
                 call.safetyReceive<UserCredentials> { credential ->
                     val user = service.getUser(credential)
