@@ -23,7 +23,6 @@ import io.micrometer.core.instrument.distribution.DistributionStatisticConfig
 import io.micrometer.prometheus.PrometheusConfig
 import io.micrometer.prometheus.PrometheusMeterRegistry
 import io.prometheus.client.exporter.common.TextFormat
-import kotlinx.serialization.json.Json
 import java.time.Duration
 
 fun main() {

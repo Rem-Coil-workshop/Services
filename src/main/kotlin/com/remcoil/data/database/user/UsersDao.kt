@@ -1,6 +1,7 @@
 package com.remcoil.data.database.user
 
 import com.remcoil.data.model.user.User
+import com.remcoil.exception.auth.NoSuchUserException
 import com.remcoil.utils.safetySuspendTransaction
 import org.jetbrains.exposed.sql.*
 
@@ -33,6 +34,11 @@ class UsersDao(private val database: Database) {
         }
 
         user.copy(id = id.value)
+    }
+
+    suspend fun removeUser(user: User) = safetySuspendTransaction(database) {
+        val resultCode = Users.deleteWhere { Users.firstname eq user.firstname and (Users.lastname eq user.lastname) }
+        if (resultCode == 0) throw NoSuchUserException(user.firstname, user.lastname)
     }
 
     private fun extractUser(row: ResultRow): User = User(

@@ -1,7 +1,10 @@
 package com.remcoil.domain.controller.slot
 
 import com.remcoil.domain.service.slot.SlotService
+import com.remcoil.utils.logger
+import kotlinx.coroutines.*
 import java.util.*
+import kotlin.coroutines.coroutineContext
 
 class SlotController(
     private val slotService: SlotService,
@@ -29,7 +32,16 @@ class SlotController(
     }
 
     suspend fun reset() {
-        slotService.resetState()
+//        withContext(Dispatchers.IO) {
+//            launch { closeAllConnection() }
+//            launch { slotService.resetState() }
+//        }
+        if (modules.isNotEmpty()) {
+            closeAllConnection()
+            logger.info("Сборос всех соединений")
+        } else {
+            slotService.resetState()
+        }
     }
 
     private suspend fun notify(card: Int) {
@@ -38,4 +50,9 @@ class SlotController(
         }
     }
 
+    private suspend fun closeAllConnection() {
+        modules.forEach { module ->
+            module.onClose()
+        }
+    }
 }

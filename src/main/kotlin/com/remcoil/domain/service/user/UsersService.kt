@@ -38,4 +38,9 @@ class UsersService(
         logger.info("Пользователь ${user.firstname} ${user.lastname} создан")
         return newUser
     }
+
+    suspend fun remove(user: User) {
+        usersDao.removeUser(user)
+        logger.info("Пользователь ${user.firstname} ${user.lastname} удалён")
+    }
 }

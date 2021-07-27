@@ -21,6 +21,15 @@ fun Application.cardModule() {
                     logger.info("Отправлено значение карты $card")
                     outgoing.send(Frame.Text(card.toString()))
                 }
+
+                override suspend fun onClose() {
+                    close(
+                        CloseReason(
+                            CloseReason.Codes.NORMAL,
+                            "Соединений с сервером закрыто, попробуйте перезайти в диалог"
+                        )
+                    )
+                }
             }
 
             try {
