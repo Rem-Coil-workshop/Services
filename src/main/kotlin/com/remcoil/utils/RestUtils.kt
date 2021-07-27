@@ -20,10 +20,13 @@ suspend inline fun <reified T : Any> ApplicationCall.safetyReceive(onCorrectResu
 
     } catch (e: AuthenticationException) {
         logThrowable(e)
-        respond(HttpStatusCode.Unauthorized, TextMessage(e.message.toString()))
+        respond(HttpStatusCode.Unauthorized, TextMessage(e.message))
     } catch (e: InfoException) {
         logThrowable(e)
         respond(HttpStatusCode.BadRequest, TextMessage(e.message.toString()))
+    } catch (e: Throwable) {
+        logThrowable(e)
+        respond(HttpStatusCode.InternalServerError)
     }
 }
 

@@ -1,7 +1,7 @@
 package com.remcoil.domain.service.slot
 
 import com.remcoil.domain.service.log.LogsService
-import com.remcoil.domain.useCase.SlotValidator
+import com.remcoil.domain.useCase.validator.SlotValidator
 import com.remcoil.presentation.device.SlotOpener
 import com.remcoil.presentation.device.SlotState
 

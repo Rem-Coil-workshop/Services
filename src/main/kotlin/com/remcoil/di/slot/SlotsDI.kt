@@ -3,8 +3,8 @@ package com.remcoil.di.slot
 import com.remcoil.domain.controller.slot.SlotController
 import com.remcoil.domain.service.slot.SlotService
 import com.remcoil.domain.service.slot.SlotServiceImpl
-import com.remcoil.domain.useCase.SlotValidator
-import com.remcoil.domain.useCase.SlotValidatorImpl
+import com.remcoil.domain.useCase.validator.SlotValidator
+import com.remcoil.domain.useCase.validator.SlotValidatorImpl
 import com.remcoil.presentation.device.*
 import org.kodein.di.DI
 import org.kodein.di.bind

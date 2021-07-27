@@ -36,6 +36,10 @@ fun main() {
     }
 
     engine.start(wait = true)
+
+    engine.addShutdownHook {
+        println("It end")
+    }
 }
 
 private fun Application.main() {

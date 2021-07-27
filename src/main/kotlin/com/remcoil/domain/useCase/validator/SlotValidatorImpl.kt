@@ -1,4 +1,4 @@
-package com.remcoil.domain.useCase
+package com.remcoil.domain.useCase.validator
 
 import com.remcoil.domain.service.box.BoxesService
 import com.remcoil.domain.service.employee.EmployeesService

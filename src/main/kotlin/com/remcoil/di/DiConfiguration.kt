@@ -2,6 +2,7 @@ package com.remcoil.di
 
 import com.remcoil.di.box.boxesComponents
 import com.remcoil.config.AppConfig
+import com.remcoil.config.LogFileConfig
 import com.remcoil.config.RoutesConfig
 import com.remcoil.config.SecureConfig
 import com.remcoil.di.employee.employeesComponents
@@ -40,6 +41,8 @@ private fun DI.Builder.coreComponents(config: AppConfig) {
     bind<RoutesConfig>() with eagerSingleton { config.routes }
 
     bind<SecureConfig>() with eagerSingleton { config.secure }
+
+    bind<LogFileConfig>() with eagerSingleton { config.logSource }
 
     bind<Database>() with eagerSingleton {
         Database.connect(

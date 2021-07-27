@@ -4,5 +4,6 @@ data class AppConfig(
     val http: HttpConfig,
     val database: DatabaseConfig,
     val routes: RoutesConfig,
-    val secure: SecureConfig
+    val secure: SecureConfig,
+    val logSource: LogFileConfig,
 )
