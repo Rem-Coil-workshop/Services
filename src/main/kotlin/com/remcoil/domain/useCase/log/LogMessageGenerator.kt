@@ -14,7 +14,7 @@ class LogMessageGenerator(
     private val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
 
     suspend fun generate(qrCode: String, card: Int): String = withContext(Dispatchers.IO) {
-        val employee = async { employeesService.getById(card) }
+        val employee = async { employeesService.getByEmployeeNumber(card) }
         return@withContext generateByEmployeeAndTask(employee.await(), qrCode)
     }
 

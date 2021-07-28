@@ -17,7 +17,7 @@ class EmployeesService(private val dao: EmployeesDao) {
         return employee
     }
 
-    private suspend fun getByEmployeeNumber(number: Int): Employee {
+    suspend fun getByEmployeeNumber(number: Int): Employee {
         val employee = dao.getEmployeeByNumber(number)
         logger.info("Отдан рабочий ${employee.employeeNumber}")
         return employee
