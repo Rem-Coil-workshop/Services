@@ -1,6 +1,5 @@
 package com.remcoil.di.log
 
-import com.remcoil.data.database.log.LogsDao
 import com.remcoil.domain.service.log.LogsService
 import com.remcoil.domain.useCase.files.DirectoryHelper
 import com.remcoil.domain.useCase.files.DirectoryHelperImpl
@@ -13,7 +12,6 @@ import org.kodein.di.instance
 import org.kodein.di.singleton
 
 fun DI.Builder.logsComponents() {
-    bind<LogsDao>() with singleton { LogsDao(instance()) }
     bind<LogsService>() with singleton { LogsService(instance(), instance(), instance()) }
 
     bind<OperationLogger>() with singleton { OperationLoggerImpl(instance()) }

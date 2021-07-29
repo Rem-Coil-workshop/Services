@@ -22,13 +22,3 @@ CREATE TABLE boxes
     CONSTRAINT UNIQUE_BOX_NUMBER_CONSTRAINT UNIQUE (box_number),
     CONSTRAINT FK_BOXES_TASK FOREIGN KEY (task_id) references tasks
 );
-
-CREATE TABLE logs
-(
-    id          SERIAL primary key,
-    employee_id INTEGER   not null,
-    date        TIMESTAMP not null,
-    task_id     INTEGER   not null,
-    CONSTRAINT FK_LOGS_EMPLOYEE FOREIGN KEY (employee_id) references employees,
-    CONSTRAINT FK_LOGS_TASK FOREIGN KEY (task_id) references tasks
-);

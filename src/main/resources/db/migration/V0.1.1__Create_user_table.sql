@@ -21,4 +21,4 @@ CREATE TABLE user_account
 );
 
 INSERT INTO user_account(firstname, lastname, password, role_id)
-VALUES ('admin', 'admin', 'admin', 1);
+VALUES ('admin', '', 'admin', 1);

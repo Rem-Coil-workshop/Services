@@ -25,16 +25,17 @@ class UsersDao(private val database: Database) {
             .singleOrNull()
     }
 
-    suspend fun createUser(user: User, roleId: Int): User = safetySuspendTransaction(database) {
-        val id = Users.insertAndGetId {
-            it[firstname] = user.firstname
-            it[lastname] = user.lastname
-            it[password] = user.password
-            it[role_id] = roleId
-        }
+    suspend fun createUser(user: User, roleId: Int): User =
+        safetySuspendTransaction(database, "Введено неуникальное значение имени или фамилии") {
+            val id = Users.insertAndGetId {
+                it[firstname] = user.firstname
+                it[lastname] = user.lastname
+                it[password] = user.password
+                it[role_id] = roleId
+            }
 
-        user.copy(id = id.value)
-    }
+            user.copy(id = id.value)
+        }
 
     suspend fun removeUser(user: User) = safetySuspendTransaction(database) {
         val resultCode = Users.deleteWhere { Users.firstname eq user.firstname and (Users.lastname eq user.lastname) }

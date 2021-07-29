@@ -38,15 +38,16 @@ class BoxesDao(private val database: Database) {
             box.copy(id = id.value)
         }
 
-    suspend fun updateBox(box: Box): Box = safetySuspendTransaction(database) {
-        Boxes.update({ Boxes.id eq box.id }) {
-            it[taskId] =
-                if (box.taskId != null) EntityID(box.taskId, Tasks)
-                else null
-        }
+    suspend fun updateBox(box: Box): Box =
+        safetySuspendTransaction(database, "Введенное значение задачи не существует") {
+            Boxes.update({ Boxes.id eq box.id }) {
+                it[taskId] =
+                    if (box.taskId != null) EntityID(box.taskId, Tasks)
+                    else null
+            }
 
-        return@safetySuspendTransaction box
-    }
+            return@safetySuspendTransaction box
+        }
 
     private fun extractBox(row: ResultRow): Box = Box(
         row[Boxes.id].value,
