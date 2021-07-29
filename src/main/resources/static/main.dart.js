@@ -68168,7 +68168,7 @@ var $async$a7=P.C(function(c,d){if(c===1)return P.D(d,r)
 while(true)switch(s){case 0:s=2
 return P.S(b.rP(q.a),$async$a7)
 case 2:a.gM()[0].$1(new V.ot(!0))
-p=U.qY("/logs")
+p=U.qY("/boxes")
 a.gM()[0].$1(p)
 return P.E(null,r)}})
 return P.F($async$a7,r)}}
@@ -68800,7 +68800,7 @@ Z.IE.prototype={
 G:function(a,b){var s=null,r=A.vI(s,s,s,s,s,s,s,s,s,s,s,s,new V.cp(new X.cS(K.pI(18),new Y.c6(C.e8,1,C.O)),t.M1),s,s,s,s,s)
 return T.bY(D.GM(L.aN("\u041d\u0430\u0447\u0430\u0442\u044c",s,s,s,s,s,s),new Z.a2D(b),r),40,1/0)}}
 Z.a2D.prototype={
-$0:function(){O.dL(this.a,t.i).gM()[0].$1(new A.y2("/logs"))},
+$0:function(){O.dL(this.a,t.i).gM()[0].$1(new A.y2("/boxes"))},
 $S:0}
 E.Ng.prototype={
 i:function(a){return"AuthViewModel.success(user: "+this.a.i(0)+")"},
