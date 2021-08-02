@@ -9,7 +9,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class OperationLoggerImpl(private val config: LogFileConfig) : OperationLogger {
-    private val directory = Paths.get(config.baseFolder)
+    private val directory = Paths.get(config.jobLogFolder)
     private val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
 
     override fun log(message: String) {

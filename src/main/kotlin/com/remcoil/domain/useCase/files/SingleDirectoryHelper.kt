@@ -1,13 +1,9 @@
 package com.remcoil.domain.useCase.files
 
-import com.remcoil.config.LogFileConfig
 import java.nio.file.Files
 import java.nio.file.Path
-import java.nio.file.Paths
 
-class DirectoryHelperImpl(config: LogFileConfig) : DirectoryHelper {
-    private val rootDirectory = Paths.get(config.baseFolder)
-
+class SingleDirectoryHelper(private val rootDirectory: Path) : DirectoryHelper {
     override fun getAllFiles(): List<String> {
         val directory = openDirectory()
         val files = getAllPaths(directory)

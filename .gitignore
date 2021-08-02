@@ -6,3 +6,7 @@ gradlew.bat
 target
 /log/
 /deploy/bin/log/
+/server_log/
+/static/
+/deploy/bin/server_log/
+/deploy/bin/static/

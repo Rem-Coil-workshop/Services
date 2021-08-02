@@ -7,15 +7,14 @@ import com.remcoil.utils.logger
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class LogsService(
+class JobLogsService(
     private val directory: DirectoryHelper,
     private val messageGenerator: LogMessageGenerator,
     private val operationLogger: OperationLogger
 ) {
-
     suspend fun getAllFiles(): List<String> = withContext(Dispatchers.IO) {
         val files = directory.getAllFiles()
-        logger.info("Отдали весь список файлов логов")
+        logger.info("Отдали весь список файлов логов операций с ящиками")
         files
     }
 

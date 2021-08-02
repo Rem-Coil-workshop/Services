@@ -1,13 +1,13 @@
 package com.remcoil.domain.service.slot
 
-import com.remcoil.domain.service.log.LogsService
+import com.remcoil.domain.service.log.JobLogsService
 import com.remcoil.domain.useCase.validator.SlotValidator
 import com.remcoil.presentation.device.SlotOpener
 import com.remcoil.presentation.device.SlotState
 
 class SlotServiceImpl(
     private val validator: SlotValidator,
-    private val logsService: LogsService,
+    private val logsService: JobLogsService,
     private val opener: SlotOpener,
     private val state: SlotState
 ) : SlotService {

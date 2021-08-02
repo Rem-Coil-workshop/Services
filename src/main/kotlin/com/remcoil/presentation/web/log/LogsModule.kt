@@ -1,7 +1,8 @@
 package com.remcoil.presentation.web.log
 
 import com.remcoil.data.model.log.LogData
-import com.remcoil.domain.service.log.LogsService
+import com.remcoil.domain.service.log.JobLogsService
+import com.remcoil.domain.service.log.MainLogsService
 import com.remcoil.utils.safetyReceive
 import io.ktor.application.*
 import io.ktor.http.*
@@ -13,22 +14,33 @@ import org.kodein.di.ktor.closestDI
 
 
 fun Application.logsModule() {
-    val service: LogsService by closestDI().instance()
+    val jobLogsService: JobLogsService by closestDI().instance()
+    val mainLogsService: MainLogsService by closestDI().instance()
 
     routing {
         static("logs") {
             files("log")
         }
 
+        static("server_log") {
+            files("server_log/archive")
+            default("server_log/log.log")
+        }
+
         route("/v1/logs") {
-            get {
-                val files = service.getAllFiles()
+            get("/job") {
+                val files = jobLogsService.getAllFiles()
+                call.respond(files)
+            }
+
+            get("/main") {
+                val files = mainLogsService.getAllLogFiles()
                 call.respond(files)
             }
 
             post {
                 call.safetyReceive<LogData> { logData ->
-                    service.log(logData.qrCode, logData.cardCode)
+                    jobLogsService.log(logData.qrCode, logData.cardCode)
                     call.respond(HttpStatusCode.NoContent)
                 }
             }
