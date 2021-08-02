@@ -12,6 +12,7 @@
             <fileNamePattern>server_log/archive/%d{yyyy-MM-dd}.log</fileNamePattern>
         </rollingPolicy>
         <encoder>
+            <charset>UTF-8</charset>
             <pattern>%d{YYYY-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
