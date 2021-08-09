@@ -1,0 +1,12 @@
+[Unit]
+Description=Main server
+After=network.target
+
+[Service]
+User=root
+WorkingDirectory=/home/pi/main_server
+ExecStart=/home/pi/main_server/bin/slot_sistem_main_server
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
