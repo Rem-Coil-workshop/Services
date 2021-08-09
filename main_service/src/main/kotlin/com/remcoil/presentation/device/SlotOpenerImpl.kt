@@ -31,8 +31,7 @@ class SlotOpenerImpl(
     }
 
     private suspend fun safetyOpen(boxNumber: Int): Boolean {
-        return withContext(Dispatchers.IO)
-        {
+        return withContext(Dispatchers.IO) {
             try {
                 open(boxNumber)
             } catch (e: ClientRequestException) {
