@@ -1,1 +1,1 @@
-rootProject.name = "slot_sistem_main_server"
+rootProject.name = "main_service"

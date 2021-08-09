@@ -1,0 +1,9 @@
+.idea
+/main_service/.gradle
+/main_service/build
+/main_service/gradlew
+/main_service/gradlew.bat
+/log/
+/server_log/
+/static/
+target
