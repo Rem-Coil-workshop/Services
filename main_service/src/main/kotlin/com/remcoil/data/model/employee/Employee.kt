@@ -8,4 +8,6 @@ data class Employee(
     val employeeNumber: Int,
     val name: String,
     val surname: String
-)
+) {
+    val fullName get() = "$name $surname"
+}

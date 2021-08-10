@@ -6,7 +6,7 @@ import traceback
 import requests
 import logger_config
 from config import HEADERS, CARD_URL, SLEEP_TIME, MODE_DEV
-from hardware_manipulation import listen_changes
+from hand_manipulation import listen_changes
 
 
 def send_request(code: int):

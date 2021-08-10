@@ -6,4 +6,5 @@
 /log/
 /server_log/
 /static/
+/venv/
 target
