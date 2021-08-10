@@ -3,7 +3,8 @@ package com.remcoil.presentation.web.task
 import com.remcoil.data.model.base.TextMessage
 import com.remcoil.data.model.task.TaskResponse
 import com.remcoil.domain.service.task.TasksService
-import com.remcoil.utils.safetyReceive
+import com.remcoil.utils.safetyReceiveWithBody
+import com.remcoil.utils.safetyReceiveWithRouteParameter
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.response.*
@@ -43,13 +44,13 @@ fun Application.tasksModule() {
             }
 
             post {
-                call.safetyReceive<TaskResponse> { task ->
+                call.safetyReceiveWithBody<TaskResponse> { task ->
                     call.respond(service.addTask(task.qrCode))
                 }
             }
 
             delete("/{id}") {
-                call.safetyReceive("id") { id ->
+                call.safetyReceiveWithRouteParameter("id") { id ->
                     service.deleteTask(id.toInt())
                     call.respond(TextMessage("Задача удалена"))
                 }

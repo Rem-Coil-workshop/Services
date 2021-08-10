@@ -16,7 +16,7 @@ fun DI.Builder.slotsComponent() {
 
     bind<SlotService>() with singleton { SlotServiceImpl(instance(), instance(), instance(), instance()) }
 
-    bind<SlotValidator>() with singleton { SlotValidatorImpl(instance(), instance()) }
+    bind<SlotValidator>() with singleton { SlotValidatorImpl(instance(), instance(), instance()) }
 
     bind<SlotState>() with singleton { SlotStateImpl(instance()) }
 

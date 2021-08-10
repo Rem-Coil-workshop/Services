@@ -4,7 +4,7 @@ import com.remcoil.data.model.user.Token
 import com.remcoil.data.model.user.User
 import com.remcoil.data.model.user.UserCredentials
 import com.remcoil.domain.service.user.UsersService
-import com.remcoil.utils.safetyReceive
+import com.remcoil.utils.safetyReceiveWithBody
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.response.*
@@ -23,7 +23,7 @@ fun Application.userModule() {
             }
 
             post("/sign_in") {
-                call.safetyReceive<UserCredentials> { credential ->
+                call.safetyReceiveWithBody<UserCredentials> { credential ->
                     val user = service.getUser(credential)
                     val token: Token by closestDI().instance(arg = user)
                     call.respond(token)
@@ -31,7 +31,7 @@ fun Application.userModule() {
             }
 
             post("/sign_up"){
-                call.safetyReceive<UserCredentials> { credentials ->
+                call.safetyReceiveWithBody<UserCredentials> { credentials ->
                     val user = service.createByCredentials(credentials)
                     val token: Token by closestDI().instance(arg = user)
                     call.respond(token)
@@ -39,7 +39,7 @@ fun Application.userModule() {
             }
 
             delete {
-                call.safetyReceive<User> { user ->
+                call.safetyReceiveWithBody<User> { user ->
                     service.remove(user)
                     call.respond(HttpStatusCode.NoContent)
                 }

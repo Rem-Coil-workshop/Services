@@ -3,7 +3,7 @@ package com.remcoil.presentation.web.log
 import com.remcoil.data.model.log.LogData
 import com.remcoil.domain.service.log.JobLogsService
 import com.remcoil.domain.service.log.MainLogsService
-import com.remcoil.utils.safetyReceive
+import com.remcoil.utils.safetyReceiveWithBody
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.http.content.*
@@ -39,7 +39,7 @@ fun Application.logsModule() {
             }
 
             post {
-                call.safetyReceive<LogData> { logData ->
+                call.safetyReceiveWithBody<LogData> { logData ->
                     jobLogsService.log(logData.qrCode, logData.cardCode)
                     call.respond(HttpStatusCode.NoContent)
                 }

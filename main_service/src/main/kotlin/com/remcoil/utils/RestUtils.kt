@@ -12,7 +12,7 @@ import io.ktor.response.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-suspend inline fun <reified T : Any> ApplicationCall.safetyReceive(onCorrectResult: (T) -> Unit) {
+suspend inline fun <reified T : Any> ApplicationCall.safetyReceiveWithBody(onCorrectResult: (T) -> Unit) {
     try {
         receiveOrNull<T>()
             ?.let(onCorrectResult)
@@ -30,9 +30,21 @@ suspend inline fun <reified T : Any> ApplicationCall.safetyReceive(onCorrectResu
     }
 }
 
-suspend inline fun ApplicationCall.safetyReceive(parameterName: String, onCorrectResult: (String) -> Unit) {
+suspend inline fun ApplicationCall.safetyReceiveWithRouteParameter(routeParameter: String, onCorrectResult: (String) -> Unit) {
     try {
-        parameters[parameterName]
+        parameters[routeParameter]
+            ?.let(onCorrectResult)
+            ?: respond(HttpStatusCode.BadRequest)
+
+    } catch (e: InfoException) {
+        logThrowable(e)
+        respond(HttpStatusCode.BadRequest, TextMessage(e.message.toString()))
+    }
+}
+
+suspend inline fun ApplicationCall.safetyReceiveWithQueryParameter(queryParameterName: String, onCorrectResult: (String) -> Unit) {
+    try {
+        request.queryParameters[queryParameterName]
             ?.let(onCorrectResult)
             ?: respond(HttpStatusCode.BadRequest)
 

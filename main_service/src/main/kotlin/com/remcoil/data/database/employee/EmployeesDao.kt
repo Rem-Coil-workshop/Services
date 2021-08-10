@@ -12,6 +12,12 @@ class EmployeesDao(private val database: Database) {
             .map(::extractEmployee)
     }
 
+    suspend fun getEmployeesByIds(ids: List<Int>): List<Employee> = safetySuspendTransaction(database) {
+        Employees
+            .select { Employees.id.inList(ids) }
+            .map(::extractEmployee)
+    }
+
     suspend fun getEmployeeById(id: Int): Employee = safetySuspendTransaction(database) {
         Employees
             .select { Employees.id eq id }

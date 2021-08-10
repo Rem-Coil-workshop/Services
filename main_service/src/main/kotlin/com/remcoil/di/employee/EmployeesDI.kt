@@ -14,5 +14,5 @@ fun DI.Builder.employeesComponents() {
     bind<EmployeesService>() with singleton { EmployeesService(instance()) }
 
     bind<PermissionsDao>() with singleton { PermissionsDao(instance()) }
-    bind<PermissionsService>() with singleton { PermissionsService(instance()) }
+    bind<PermissionsService>() with singleton { PermissionsService(instance(), instance(), instance()) }
 }

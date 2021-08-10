@@ -10,11 +10,10 @@ class TasksDao(private val database: Database) {
         Tasks.selectAll().map(::extractTask)
     }
 
-    suspend fun getTaskById(id: Int): Task = safetySuspendTransaction(database) {
+    suspend fun getTasksByIds(tasksId: List<Int>): List<Task> = safetySuspendTransaction(database) {
         Tasks
-            .select { Tasks.id eq id }
+            .select { Tasks.id.inList(tasksId) }
             .map(::extractTask)
-            .singleOrNull() ?: throw NoSuchTaskException("Задача с таким id не существет")
     }
 
     suspend fun getTaskQrCode(qrCode: String): Task? = safetySuspendTransaction(database) {
@@ -24,22 +23,22 @@ class TasksDao(private val database: Database) {
             .singleOrNull()
     }
 
-    suspend fun addTask(qrCode: String): Task = safetySuspendTransaction(database, "Введено не уникальное значение кода") {
-        val id = Tasks.insertAndGetId {
-            it[Tasks.qrCode] = qrCode
+    suspend fun addTask(qrCode: String): Task =
+        safetySuspendTransaction(database, "Введено не уникальное значение кода") {
+            val id = Tasks.insertAndGetId {
+                it[Tasks.qrCode] = qrCode
+            }
+            Task(id.value, qrCode)
         }
-
-        Task(id.value, qrCode)
-    }
 
     suspend fun removeTaskById(id: Int) = safetySuspendTransaction(database) {
         val resultCode = Tasks.deleteWhere { Tasks.id eq id }
-        if (resultCode == 0) throw NoSuchTaskException("Задача с таким кодом не существет")
+        if (resultCode == 0) throw NoSuchTaskException("Задача с таким кодом не существует")
     }
 
     suspend fun removeTaskByQrCode(qrCode: String) = safetySuspendTransaction(database) {
         val resultCode = Tasks.deleteWhere { Tasks.qrCode eq qrCode }
-        if (resultCode == 0) throw NoSuchTaskException("Задача с таким кодом не существет")
+        if (resultCode == 0) throw NoSuchTaskException("Задача с таким кодом не существует")
     }
 
     private fun extractTask(row: ResultRow): Task = Task(

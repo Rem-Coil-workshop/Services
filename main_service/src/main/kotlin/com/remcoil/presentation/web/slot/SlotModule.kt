@@ -5,7 +5,8 @@ import com.remcoil.data.model.slot.QrCode
 import com.remcoil.domain.controller.slot.SlotController
 import com.remcoil.presentation.device.SlotOpener
 import com.remcoil.utils.logger
-import com.remcoil.utils.safetyReceive
+import com.remcoil.utils.safetyReceiveWithBody
+import com.remcoil.utils.safetyReceiveWithRouteParameter
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.response.*
@@ -20,7 +21,7 @@ fun Application.slotModule() {
     routing {
         route("/v1/slots") {
             post("/card") {
-                call.safetyReceive<CardCode> { card ->
+                call.safetyReceiveWithBody<CardCode> { card ->
                     logger.info("Считано значение карты ${card.card}")
                     controller.setCard(card.card)
                     call.respond(HttpStatusCode.NoContent)
@@ -28,7 +29,7 @@ fun Application.slotModule() {
             }
 
             post("/qr") {
-                call.safetyReceive<QrCode> { code ->
+                call.safetyReceiveWithBody<QrCode> { code ->
                     logger.info("Считано значение qr кода ${code.qr}")
                     controller.setQr(code.qr)
                     call.respond(HttpStatusCode.NoContent)
@@ -42,7 +43,7 @@ fun Application.slotModule() {
             }
 
             get("/open/{id}") {
-                call.safetyReceive("id") { id ->
+                call.safetyReceiveWithRouteParameter("id") { id ->
                     logger.info("Открываем ячейку $id")
                     opener.openByBoxNumber(id.toInt())
                     call.respond(HttpStatusCode.NoContent)

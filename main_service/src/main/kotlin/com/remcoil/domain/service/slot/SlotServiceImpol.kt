@@ -25,11 +25,18 @@ class SlotServiceImpl(
 
     private suspend fun openSlot() {
         if (state.isReady) {
-            if (opener.openByQrCode(state.qrCode)) {
-                logsService.log(state.qrCode, state.cardNumber)
-            }
+            if (isOpen()) logsService.log(state.qrCode, state.cardNumber)
             state.reset()
         }
+    }
+
+    private suspend fun isOpen(): Boolean {
+        val isPermitted = validator.checkPermission(state.cardNumber, state.qrCode)
+        if (!isPermitted) {
+            state.reset()
+            throw Exception("No permission for this task")
+        }
+        return opener.openByQrCode(state.qrCode)
     }
 
     override suspend fun resetState() {

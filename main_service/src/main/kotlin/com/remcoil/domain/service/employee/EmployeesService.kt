@@ -11,6 +11,12 @@ class EmployeesService(private val dao: EmployeesDao) {
         return employees
     }
 
+    suspend fun getByIds(ids: List<Int>): List<Employee> {
+        val employees = dao.getEmployeesByIds(ids)
+        logger.info("Отдали ${employees.size} сотрудников")
+        return employees
+    }
+
     suspend fun getById(id: Int): Employee {
         val employee = dao.getEmployeeById(id)
         logger.info("Отдан рабочий ${employee.employeeNumber}")

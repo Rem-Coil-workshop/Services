@@ -8,15 +8,15 @@ import com.remcoil.utils.safetySuspendTransaction
 import org.jetbrains.exposed.sql.*
 
 class PermissionsDao(private val database: Database) {
-    suspend fun getPermittedTaskByEmployee(employee: Employee): List<Int> = safetySuspendTransaction(database) {
+    suspend fun getPermittedTaskByEmployeeId(employeeId: Int): List<Int> = safetySuspendTransaction(database) {
         EmployeePermissions
-            .select { EmployeePermissions.employeeId eq employee.id }
+            .select { EmployeePermissions.employeeId eq employeeId }
             .map { row -> row[EmployeePermissions.taskId].value }
     }
 
-    suspend fun getEmployeesByTask(task: Task): List<Int> = safetySuspendTransaction(database) {
+    suspend fun getEmployeesByTask(taskId: Int): List<Int> = safetySuspendTransaction(database) {
         EmployeePermissions
-            .select { EmployeePermissions.taskId eq task.id }
+            .select { EmployeePermissions.taskId eq taskId }
             .map { row -> row[EmployeePermissions.employeeId].value }
     }
 

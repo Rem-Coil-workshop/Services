@@ -11,6 +11,12 @@ class TasksService(private val dao: TasksDao) {
         return tasks
     }
 
+    suspend fun getByIds(ids: List<Int>): List<Task> {
+        val tasks = dao.getTasksByIds(ids)
+        logger.info("Отдали ${tasks.size} задач")
+        return tasks
+    }
+
     suspend fun getByQrCode(qrCode: String): Task? {
         val task = dao.getTaskQrCode(qrCode)
         logger.info("Отдана задача ${task?.qrCode}")
