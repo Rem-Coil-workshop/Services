@@ -38,7 +38,7 @@ class SlotOpenerImpl(
                 logger.info("Конечная точка для сервиса недоступна или формат неверный (${e.response.status.value})")
                 false
             } catch (e: ConnectException) {
-                logger.info("Не удалось уставноваить соединение с сервером")
+                logger.info("Не удалось установить соединение с сервером")
                 false
             }
         }

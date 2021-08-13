@@ -32,7 +32,7 @@ class SlotController(
     suspend fun reset() {
         if (modules.isNotEmpty()) {
             closeAllConnection()
-            logger.info("Сборос всех соединений")
+            logger.info("Сброс всех соединений")
         } else {
             slotService.resetState()
         }

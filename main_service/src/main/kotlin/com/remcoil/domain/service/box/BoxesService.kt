@@ -20,7 +20,7 @@ class BoxesService(
 
     suspend fun getById(id: Int): Box {
         val box = boxesDao.getBoxById(id)
-        logger.info("Отдал яейку с id ${box.id}")
+        logger.info("Отдал ячейку с id ${box.id}")
         return box
     }
 

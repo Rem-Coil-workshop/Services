@@ -14,23 +14,23 @@ class PermissionsService(
 ) {
     suspend fun getPermittedTasks(employeeId: Int): List<Task> {
         val tasksId = permissionDao.getPermittedTaskByEmployeeId(employeeId)
-        logger.info("Отдали все задачи, которые разрешены $employeeId")
+        logger.info("Отдали все задачи, которые разрешены для сотрудника $employeeId")
         return tasksService.getByIds(tasksId)
     }
 
     suspend fun getPermittedEmployees(taskId: Int): List<Employee> {
         val employeesId = permissionDao.getEmployeesByTask(taskId)
-        logger.info("Отдали всех сотрудников, которые допущены до $taskId")
+        logger.info("Отдали всех сотрудников, которые допущены до задачи с id = $taskId")
         return employeesService.getByIds(employeesId)
     }
 
     suspend fun addPermission(permission: Permission) {
         permissionDao.addPermission(permission.employee, permission.task)
-        logger.info("Добавили разрешение на использование ${permission.task.qrCode} для ${permission.employee.fullName}")
+        logger.info("Добавили разрешение на использование задачи ${permission.task.qrCode} для сотрудника ${permission.employee.fullName}")
     }
 
     suspend fun deletePermission(permission: Permission) {
         permissionDao.removePermission(permission.employee, permission.task)
-        logger.info("Удалили разрешение на использование ${permission.task.qrCode} для ${permission.employee.fullName}")
+        logger.info("Удалили разрешение на использование задачи ${permission.task.qrCode} для сотрудника ${permission.employee.fullName}")
     }
 }
