@@ -1,6 +1,6 @@
 package com.remcoil.data.database
 
-import com.remcoil.config.DatabaseConfig
+import com.remcoil.config.hocon.DatabaseConfig
 import org.flywaydb.core.Flyway
 
 

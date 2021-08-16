@@ -10,9 +10,5 @@ fun Application.siteModule() {
             files("static")
             default("static/index.html")
         }
-//        static("/") {
-//            resources(resourcePackage = "static")
-//            defaultResource(resource = "index.html", resourcePackage = "static")
-//        }
     }
 }

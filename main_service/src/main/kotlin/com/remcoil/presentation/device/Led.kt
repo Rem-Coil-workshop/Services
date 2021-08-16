@@ -1,6 +1,6 @@
 package com.remcoil.presentation.device
 
-import com.remcoil.config.RoutesConfig
+import com.remcoil.config.hocon.RoutesConfig
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*

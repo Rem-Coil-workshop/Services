@@ -37,13 +37,6 @@ fun Application.logsModule() {
                 val files = mainLogsService.getAllLogFiles()
                 call.respond(files)
             }
-
-            post {
-                call.safetyReceiveWithBody<LogData> { logData ->
-                    jobLogsService.log(logData.qrCode, logData.cardCode)
-                    call.respond(HttpStatusCode.NoContent)
-                }
-            }
         }
     }
 }

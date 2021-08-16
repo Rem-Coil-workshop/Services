@@ -1,4 +1,4 @@
-package com.remcoil.config
+package com.remcoil.config.hocon
 
 data class LogFileConfig(
     val jobLogFolder: String,

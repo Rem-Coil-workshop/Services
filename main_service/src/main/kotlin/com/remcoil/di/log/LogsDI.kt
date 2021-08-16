@@ -1,6 +1,6 @@
 package com.remcoil.di.log
 
-import com.remcoil.config.LogFileConfig
+import com.remcoil.config.hocon.LogFileConfig
 import com.remcoil.domain.service.log.JobLogsService
 import com.remcoil.domain.service.log.MainLogsService
 import com.remcoil.domain.useCase.files.DirectoryHelper

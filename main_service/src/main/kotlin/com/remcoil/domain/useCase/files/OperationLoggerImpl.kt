@@ -1,6 +1,6 @@
 package com.remcoil.domain.useCase.files
 
-import com.remcoil.config.LogFileConfig
+import com.remcoil.config.hocon.LogFileConfig
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths

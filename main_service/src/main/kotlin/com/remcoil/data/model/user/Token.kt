@@ -2,7 +2,7 @@ package com.remcoil.data.model.user
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import com.remcoil.config.SecureConfig
+import com.remcoil.config.hocon.SecureConfig
 import kotlinx.serialization.Serializable
 import java.util.*
 
