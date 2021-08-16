@@ -5,8 +5,8 @@
 /main_service/gradlew.bat
 /bin/
 /lib/
-/log/
-/server_log/
+/operation_history/
+/logs/
 /static/
 /venv/
 /target/

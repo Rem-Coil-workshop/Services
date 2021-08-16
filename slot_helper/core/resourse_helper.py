@@ -1,4 +1,5 @@
-from core.slot_helper_hardware import SlotHelper
+# TODO - вернуть пакет
+from core.slot_helper_hand import SlotHelper
 
 slot_helper = None
 

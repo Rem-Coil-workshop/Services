@@ -1,7 +1,7 @@
 package com.remcoil.di.task
 
 import com.remcoil.data.database.task.TasksDao
-import com.remcoil.domain.service.task.TasksService
+import com.remcoil.gateway.service.task.TasksService
 import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.instance

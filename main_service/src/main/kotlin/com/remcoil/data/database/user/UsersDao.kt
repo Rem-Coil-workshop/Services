@@ -1,7 +1,7 @@
 package com.remcoil.data.database.user
 
 import com.remcoil.data.model.user.User
-import com.remcoil.exception.auth.NoSuchUserException
+import com.remcoil.data.exception.user.NoSuchUserException
 import com.remcoil.utils.safetySuspendTransaction
 import org.jetbrains.exposed.sql.*
 

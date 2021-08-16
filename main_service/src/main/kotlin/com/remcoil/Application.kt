@@ -7,7 +7,7 @@ import com.remcoil.config.application.configureWebSockets
 import com.remcoil.config.hocon.AppConfig
 import com.remcoil.data.database.migrate
 import com.remcoil.di.diComponents
-import com.remcoil.presentation.web.modules
+import com.remcoil.endpoins.modules
 import com.typesafe.config.ConfigFactory
 import io.github.config4k.extract
 import io.ktor.application.*

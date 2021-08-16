@@ -2,8 +2,8 @@ package com.remcoil.di.employee
 
 import com.remcoil.data.database.employee.EmployeesDao
 import com.remcoil.data.database.employee.PermissionsDao
-import com.remcoil.domain.service.employee.EmployeesService
-import com.remcoil.domain.service.employee.PermissionsService
+import com.remcoil.gateway.service.employee.EmployeesService
+import com.remcoil.gateway.service.employee.PermissionsService
 import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.instance

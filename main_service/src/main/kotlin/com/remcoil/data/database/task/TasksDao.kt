@@ -1,6 +1,6 @@
 package com.remcoil.data.database.task
 
-import com.remcoil.exception.task.NoSuchTaskException
+import com.remcoil.data.exception.task.NoSuchTaskException
 import com.remcoil.data.model.task.Task
 import com.remcoil.utils.safetySuspendTransaction
 import org.jetbrains.exposed.sql.*

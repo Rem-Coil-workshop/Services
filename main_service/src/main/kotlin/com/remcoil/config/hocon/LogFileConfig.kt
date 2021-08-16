@@ -1,8 +1,7 @@
 package com.remcoil.config.hocon
 
 data class LogFileConfig(
-    val jobLogFolder: String,
-    val serverLogFolder: String,
-    val baseFileName: String,
+    val logsFolder: String,
+    val operationHistoryFolder: String,
     val fileExtension: String,
 )

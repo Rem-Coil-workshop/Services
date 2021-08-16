@@ -1,4 +1,5 @@
-from core.gpio_helper_hardware import GPIOHelper
+# TODO - Вернуть пакет
+from core.gpio_helper_hand import GPIOHelper
 
 slot_helper = None
 

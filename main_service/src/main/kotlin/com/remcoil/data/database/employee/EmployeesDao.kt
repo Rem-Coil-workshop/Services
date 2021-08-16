@@ -1,6 +1,6 @@
 package com.remcoil.data.database.employee
 
-import com.remcoil.exception.employee.NoSuchEmployeeException
+import com.remcoil.data.exception.employee.NoSuchEmployeeException
 import com.remcoil.data.model.employee.Employee
 import com.remcoil.utils.safetySuspendTransaction
 import org.jetbrains.exposed.sql.*

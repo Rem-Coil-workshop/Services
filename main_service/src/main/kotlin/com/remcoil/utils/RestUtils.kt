@@ -1,10 +1,10 @@
 package com.remcoil.utils
 
-import com.remcoil.exception.base.InfoException
+import com.remcoil.data.exception.base.InfoException
 import com.remcoil.data.model.base.TextMessage
 import com.remcoil.data.model.user.Token
-import com.remcoil.exception.auth.AuthenticationException
-import com.remcoil.exception.auth.NoAuthHeaderException
+import com.remcoil.data.exception.user.AuthenticationException
+import com.remcoil.data.exception.user.NoAuthHeaderException
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.request.*

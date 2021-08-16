@@ -2,7 +2,7 @@ package com.remcoil.data.database.employee
 
 import com.remcoil.data.model.employee.Employee
 import com.remcoil.data.model.task.Task
-import com.remcoil.exception.employee.NoSuchPermissionException
+import com.remcoil.data.exception.employee.NoSuchPermissionException
 import com.remcoil.utils.safetySuspendTransaction
 import org.jetbrains.exposed.sql.*
 

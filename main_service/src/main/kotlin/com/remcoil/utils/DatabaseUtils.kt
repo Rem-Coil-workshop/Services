@@ -1,6 +1,6 @@
 package com.remcoil.utils
 
-import com.remcoil.exception.base.DatabaseException
+import com.remcoil.data.exception.base.DatabaseException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jetbrains.exposed.exceptions.ExposedSQLException
