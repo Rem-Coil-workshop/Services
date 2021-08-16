@@ -3,6 +3,7 @@ package com.remcoil.endpoins.log
 import com.remcoil.gateway.service.history.OperationsHistoryService
 import com.remcoil.gateway.service.log.LogsService
 import io.ktor.application.*
+import io.ktor.auth.*
 import io.ktor.http.content.*
 import io.ktor.response.*
 import io.ktor.routing.*
@@ -15,23 +16,27 @@ fun Application.logsModule() {
     val logsService: LogsService by closestDI().instance()
 
     routing {
-        static("history") {
-            files("operation_history")
+        authenticate("employee") {
+            static("history") {
+                files("operation_history")
+            }
+
+            get("/v1/history") {
+                val files = operationsHistoryService.getAllFiles()
+                call.respond(files)
+            }
         }
 
-        static("logs") {
-            files("logs/archive")
-            default("logs/log.log")
-        }
+        authenticate("admin") {
+            static("logs") {
+                files("logs/archive")
+                default("logs/log.log")
+            }
 
-        get("/v1/history") {
-            val files = operationsHistoryService.getAllFiles()
-            call.respond(files)
-        }
-
-        get("/v1/logs") {
-            val files = logsService.getAllLogFiles()
-            call.respond(files)
+            get("/v1/logs") {
+                val files = logsService.getAllLogFiles()
+                call.respond(files)
+            }
         }
     }
 }

@@ -8,6 +8,7 @@ import com.remcoil.utils.safetyReceiveWithBody
 import com.remcoil.utils.safetyReceiveWithQueryParameter
 import com.remcoil.utils.safetyReceiveWithRouteParameter
 import io.ktor.application.*
+import io.ktor.auth.*
 import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.routing.*
@@ -19,57 +20,59 @@ fun Application.employeeModule() {
     val permissionsService: PermissionsService by closestDI().instance()
 
     routing {
-        route("/v1/employees") {
-            get {
-                call.respond(employeesService.getAll())
-            }
+        authenticate("employee") {
+            route("/v1/employees") {
+                get {
+                    call.respond(employeesService.getAll())
+                }
 
-            get("/{id}") {
-                call.safetyReceiveWithRouteParameter("id") { id ->
-                    call.respond(employeesService.getById(id.toInt()))
+                get("/{id}") {
+                    call.safetyReceiveWithRouteParameter("id") { id ->
+                        call.respond(employeesService.getById(id.toInt()))
+                    }
+                }
+
+                post {
+                    call.safetyReceiveWithBody<Employee> { employee ->
+                        call.respond(employeesService.add(employee))
+                    }
+                }
+
+                delete("/{id}") {
+                    call.safetyReceiveWithRouteParameter("id") { id ->
+                        employeesService.remove(id.toInt())
+                        call.respond(HttpStatusCode.NoContent)
+                    }
                 }
             }
 
-            post {
-                call.safetyReceiveWithBody<Employee> { employee ->
-                    call.respond(employeesService.add(employee))
+            route("/v1/permissions") {
+                get("/employees") {
+                    call.safetyReceiveWithQueryParameter("task") { taskId ->
+                        val tasks = permissionsService.getPermittedEmployees(taskId.toInt())
+                        call.respond(tasks)
+                    }
                 }
-            }
 
-            delete("/{id}") {
-                call.safetyReceiveWithRouteParameter("id") { id ->
-                    employeesService.remove(id.toInt())
-                    call.respond(HttpStatusCode.NoContent)
+                get("/tasks") {
+                    call.safetyReceiveWithQueryParameter("employee") { employeeId ->
+                        val employees = permissionsService.getPermittedTasks(employeeId.toInt())
+                        call.respond(employees)
+                    }
                 }
-            }
-        }
 
-        route("/v1/permissions") {
-            get("/employees") {
-                call.safetyReceiveWithQueryParameter("task") { taskId ->
-                    val tasks = permissionsService.getPermittedEmployees(taskId.toInt())
-                    call.respond(tasks)
+                post {
+                    call.safetyReceiveWithBody<Permission> { permission ->
+                        permissionsService.add(permission)
+                        call.respond(HttpStatusCode.OK)
+                    }
                 }
-            }
 
-            get("/tasks") {
-                call.safetyReceiveWithQueryParameter("employee") { employeeId ->
-                    val employees = permissionsService.getPermittedTasks(employeeId.toInt())
-                    call.respond(employees)
-                }
-            }
-
-            post {
-                call.safetyReceiveWithBody<Permission> { permission ->
-                    permissionsService.add(permission)
-                    call.respond(HttpStatusCode.OK)
-                }
-            }
-
-            delete {
-                call.safetyReceiveWithBody<Permission> { permission ->
-                    permissionsService.delete(permission)
-                    call.respond(HttpStatusCode.NoContent)
+                delete {
+                    call.safetyReceiveWithBody<Permission> { permission ->
+                        permissionsService.delete(permission)
+                        call.respond(HttpStatusCode.NoContent)
+                    }
                 }
             }
         }

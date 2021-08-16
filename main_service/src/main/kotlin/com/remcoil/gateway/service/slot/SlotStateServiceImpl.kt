@@ -1,13 +1,13 @@
 package com.remcoil.gateway.service.slot
 
-import com.remcoil.domain.validator.EmployeeDataValidator
 import com.remcoil.domain.device.SlotOpener
 import com.remcoil.domain.device.SlotState
+import com.remcoil.domain.validator.EmployeeDataValidator
 import com.remcoil.gateway.service.history.OperationsHistoryService
 
 class SlotStateServiceImpl(
     private val validator: EmployeeDataValidator,
-    private val logsInteractor: OperationsHistoryService,
+    private val logsService: OperationsHistoryService,
     private val opener: SlotOpener,
     private val state: SlotState
 ) : SlotStateService {
@@ -25,7 +25,7 @@ class SlotStateServiceImpl(
 
     private suspend fun openSlot() {
         if (state.isReady) {
-            if (isOpen()) logsInteractor.save(state.qrCode, state.cardNumber)
+            if (isOpen()) logsService.save(state.qrCode, state.cardNumber)
             state.reset()
         }
     }

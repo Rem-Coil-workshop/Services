@@ -1,9 +1,6 @@
 package com.remcoil
 
-import com.remcoil.config.application.configureCORS
-import com.remcoil.config.application.configureMetrics
-import com.remcoil.config.application.configureSerialization
-import com.remcoil.config.application.configureWebSockets
+import com.remcoil.config.application.*
 import com.remcoil.config.hocon.AppConfig
 import com.remcoil.data.database.migrate
 import com.remcoil.di.diComponents
@@ -19,7 +16,7 @@ fun main() {
     migrate(config.database)
 
     val engine = embeddedServer(Netty, port = config.http.port) {
-        main()
+        main(config)
         modules()
         diComponents(config)
     }
@@ -27,7 +24,8 @@ fun main() {
     engine.start(wait = true)
 }
 
-private fun Application.main() {
+private fun Application.main(config: AppConfig) {
+    configureSecurity(config.secure)
     configureSerialization()
     configureCORS()
     configureWebSockets()

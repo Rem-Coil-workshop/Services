@@ -10,6 +10,7 @@ import com.remcoil.utils.logger
 import com.remcoil.utils.safetyReceiveWithBody
 import com.remcoil.utils.safetyReceiveWithRouteParameter
 import io.ktor.application.*
+import io.ktor.auth.*
 import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.routing.*
@@ -23,27 +24,29 @@ fun Application.slotModule() {
 
     routing {
         route("/v1/slots") {
-            get {
-                call.respond(service.getAll())
-            }
-
-            post {
-                call.safetyReceiveWithBody<Slot> { box ->
-                    call.respond(service.create(box))
+            authenticate("employee") {
+                get {
+                    call.respond(service.getAll())
                 }
-            }
 
-            put {
-                call.safetyReceiveWithBody<Slot> { box ->
-                    call.respond(service.update(box))
+                post {
+                    call.safetyReceiveWithBody<Slot> { box ->
+                        call.respond(service.create(box))
+                    }
                 }
-            }
 
-            get("/open/{id}") {
-                call.safetyReceiveWithRouteParameter("id") { id ->
-                    logger.info("Открываем ячейку $id")
-                    opener.openByBoxNumber(id.toInt())
-                    call.respond(HttpStatusCode.NoContent)
+                put {
+                    call.safetyReceiveWithBody<Slot> { box ->
+                        call.respond(service.update(box))
+                    }
+                }
+
+                get("/open/{id}") {
+                    call.safetyReceiveWithRouteParameter("id") { id ->
+                        logger.info("Открываем ячейку $id")
+                        opener.openByBoxNumber(id.toInt())
+                        call.respond(HttpStatusCode.NoContent)
+                    }
                 }
             }
 
