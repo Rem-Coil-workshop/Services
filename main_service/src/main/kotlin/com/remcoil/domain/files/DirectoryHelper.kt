@@ -1,5 +1,5 @@
 package com.remcoil.domain.files
 
 interface DirectoryHelper {
-    fun getAllFiles(): List<String>
+    suspend fun getAllFiles(): List<String>
 }

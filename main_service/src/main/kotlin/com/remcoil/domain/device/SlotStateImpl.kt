@@ -13,8 +13,8 @@ class SlotStateImpl(
     override var cardNumber: Int = DEFAULT_CARD_VALUE
         private set(card) {
             if (field == DEFAULT_CARD_VALUE || card == DEFAULT_CARD_VALUE) {
-                    field = card
-                    logger.info("Установлено значение карточки: $card")
+                field = card
+                logger.info("Установлено значение карточки: $card")
             }
         }
 

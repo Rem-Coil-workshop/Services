@@ -20,4 +20,6 @@ data class User(
         credentials.password,
         credentials.role.uppercase()
     )
+
+    fun checkPassword(credentials: UserCredentials): Boolean = this.password == credentials.password
 }

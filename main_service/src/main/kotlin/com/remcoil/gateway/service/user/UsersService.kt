@@ -7,39 +7,34 @@ import com.remcoil.data.exception.user.NoSuchUserException
 import com.remcoil.data.exception.user.WrongPasswordException
 import com.remcoil.data.model.user.User
 import com.remcoil.data.model.user.UserCredentials
-import com.remcoil.utils.logger
+import com.remcoil.utils.logged
+import com.remcoil.utils.loggedEntity
+import com.remcoil.utils.takeIfOrThrow
 
 class UsersService(
     private val usersDao: UsersDao,
     private val rolesDao: RolesDao,
 ) {
-    suspend fun getAllUsers(): List<User> {
-        val users = usersDao.getAllUsers()
-        logger.info("Отдали всех пользователей")
-        return users
+    suspend fun getAll(): List<User> = logged("Отдали всех пользователей") {
+        return usersDao.getAllUsers()
     }
 
-    suspend fun getUser(credentials: UserCredentials): User {
-        val user = usersDao.getUser(credentials.firstname, credentials.lastname)
-            ?: throw NoSuchUserException(credentials.firstname, credentials.lastname)
+    suspend fun get(credentials: UserCredentials): User =
+        loggedEntity({ "Пользователь ${it.firstname} ${it.lastname} авторизован" }) {
+            usersDao.getUser(credentials.firstname, credentials.lastname)
+                ?.takeIfOrThrow(WrongPasswordException()) { checkPassword(credentials) }
+                ?: throw NoSuchUserException(credentials.firstname, credentials.lastname)
+        }
 
-        return if (user.password == credentials.password) {
-            logger.info("Пользователь ${user.firstname} ${user.lastname} авторизован")
-            user
-        } else throw WrongPasswordException()
-    }
+    suspend fun createByCredentials(credentials: UserCredentials): User =
+        loggedEntity({ "Пользователь ${it.firstname} ${it.lastname} создан" }) {
+            val role = rolesDao.getRoleByTitle(credentials.role.uppercase())
+                ?: throw NoSuchRoleException("Не существует такой роли пользователя (${credentials.role})")
 
-    suspend fun createByCredentials(credentials: UserCredentials): User {
-        val role = rolesDao.getRoleByTitle(credentials.role.uppercase())
-            ?: throw NoSuchRoleException("Не существует такой роли пользователя (${credentials.role})")
-        val user = User(credentials)
-        val newUser = usersDao.createUser(user, role.id)
-        logger.info("Пользователь ${user.firstname} ${user.lastname} создан")
-        return newUser
-    }
+            usersDao.createUser(User(credentials), role.id)
+        }
 
-    suspend fun remove(user: User) {
+    suspend fun remove(user: User) = logged("Пользователь ${user.firstname} ${user.lastname} удалён") {
         usersDao.removeUser(user)
-        logger.info("Пользователь ${user.firstname} ${user.lastname} удалён")
     }
 }

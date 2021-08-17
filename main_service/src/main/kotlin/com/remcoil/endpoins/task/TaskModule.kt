@@ -3,12 +3,10 @@ package com.remcoil.endpoins.task
 import com.remcoil.data.model.base.TextMessage
 import com.remcoil.data.model.task.TaskResponse
 import com.remcoil.gateway.service.task.TasksService
-import com.remcoil.utils.logger
 import com.remcoil.utils.safetyReceiveWithBody
 import com.remcoil.utils.safetyReceiveWithRouteParameter
 import io.ktor.application.*
 import io.ktor.auth.*
-import io.ktor.auth.jwt.*
 import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.routing.*
@@ -27,11 +25,11 @@ fun Application.tasksModuleOld() {
 
                 get("/add/{taskName}") {
                     val taskName = call.parameters["taskName"]!!
-                    call.respond(service.addTask(taskName))
+                    call.respond(service.add(taskName))
                 }
 
                 get("/delete/{taskName}") {
-                    service.deleteTask(call.parameters["taskName"]!!)
+                    service.delete(call.parameters["taskName"]!!)
                     call.respond(HttpStatusCode.NoContent)
                 }
             }
@@ -51,13 +49,13 @@ fun Application.tasksModule() {
 
                 post {
                     call.safetyReceiveWithBody<TaskResponse> { task ->
-                        call.respond(service.addTask(task.qrCode))
+                        call.respond(service.add(task.qrCode))
                     }
                 }
 
                 delete("/{id}") {
                     call.safetyReceiveWithRouteParameter("id") { id ->
-                        service.deleteTask(id.toInt())
+                        service.delete(id.toInt())
                         call.respond(TextMessage("Задача удалена"))
                     }
                 }

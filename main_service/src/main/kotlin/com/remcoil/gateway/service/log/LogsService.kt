@@ -1,14 +1,10 @@
 package com.remcoil.gateway.service.log
 
 import com.remcoil.domain.files.DirectoryHelper
-import com.remcoil.utils.logger
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import com.remcoil.utils.logged
 
 class LogsService(private val directory: DirectoryHelper) {
-    suspend fun getAllLogFiles(): List<String> = withContext(Dispatchers.IO) {
-        val files = directory.getAllFiles()
-        logger.info("Отдали весь список файлов логов системы")
-        files
+    suspend fun getAllLogFiles(): List<String> = logged("Отдали весь список файлов логов системы") {
+        return directory.getAllFiles()
     }
 }

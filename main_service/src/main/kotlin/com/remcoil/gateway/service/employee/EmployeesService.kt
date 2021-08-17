@@ -2,46 +2,35 @@ package com.remcoil.gateway.service.employee
 
 import com.remcoil.data.database.employee.EmployeesDao
 import com.remcoil.data.model.employee.Employee
-import com.remcoil.utils.logger
+import com.remcoil.utils.logged
+import com.remcoil.utils.loggedEntity
 
 class EmployeesService(private val dao: EmployeesDao) {
-    suspend fun getAll(): List<Employee> {
-        val employees = dao.getAll()
-        logger.info("Отдано ${employees.size} сотрудников")
-        return employees
+    suspend fun getAll(): List<Employee> = loggedEntity({ "Отдано ${it.size} сотрудников" }) {
+        dao.getAll()
     }
 
-    suspend fun getByIds(ids: List<Int>): List<Employee> {
-        val employees = dao.getEmployeesByIds(ids)
-        logger.info("Отдали ${employees.size} сотрудников")
-        return employees
+    suspend fun getByIds(ids: List<Int>): List<Employee> = loggedEntity({ "Отдано ${it.size} сотрудников" }) {
+        dao.getEmployeesByIds(ids)
     }
 
-    suspend fun getById(id: Int): Employee {
-        val employee = dao.getEmployeeById(id)
-        logger.info("Отдан рабочий ${employee.employeeNumber}")
-        return employee
+    suspend fun getById(id: Int): Employee = loggedEntity({ "Отдан рабочий ${it.employeeNumber}" }) {
+        dao.getEmployeeById(id)
     }
 
-    suspend fun getByEmployeeNumber(number: Int): Employee {
-        val employee = dao.getEmployeeByNumber(number)
-        logger.info("Отдан рабочий ${employee.employeeNumber}")
-        return employee
+    suspend fun getByEmployeeNumber(number: Int): Employee = loggedEntity({ "Отдан рабочий ${it.employeeNumber}" }) {
+        dao.getEmployeeByNumber(number)
     }
 
-    suspend fun add(employee: Employee): Employee {
-        val newEmployee = dao.addEmployee(employee)
-        logger.info("Создан рабочий ${newEmployee.employeeNumber}")
-        return newEmployee
+    suspend fun add(employee: Employee): Employee = loggedEntity({ "Создан рабочий ${it.employeeNumber}" }) {
+        dao.addEmployee(employee)
     }
 
-    suspend fun remove(id: Int) {
+    suspend fun remove(id: Int) = logged("Удалён рабочий $id") {
         dao.removeEmployeeById(id)
-        logger.info("Удалён рабочий $id")
     }
 
-    suspend fun checkByCard(card: Int) {
+    suspend fun checkByCard(card: Int) = logged("Рабочий $card существует") {
         getByEmployeeNumber(card)
-        logger.info("Рабочий $card существует")
     }
 }

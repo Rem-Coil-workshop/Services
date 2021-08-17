@@ -20,7 +20,7 @@ fun Application.userModule() {
         route("/v1/users") {
             authenticate("admin") {
                 get {
-                    val users = service.getAllUsers()
+                    val users = service.getAll()
                     call.respond(users)
                 }
 
@@ -34,7 +34,7 @@ fun Application.userModule() {
 
             post("/sign_in") {
                 call.safetyReceiveWithBody<UserCredentials> { credential ->
-                    val user = service.getUser(credential)
+                    val user = service.get(credential)
                     val token: Token by closestDI().instance(arg = user)
                     call.respond(token)
                 }
