@@ -1,7 +1,6 @@
 package com.remcoil.endpoins.log
 
-import com.remcoil.gateway.service.history.OperationsHistoryService
-import com.remcoil.gateway.service.log.LogsService
+import com.remcoil.domain.files.DirectoryViewer
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.http.content.*
@@ -12,8 +11,8 @@ import org.kodein.di.ktor.closestDI
 
 
 fun Application.logsModule() {
-    val operationsHistoryService: OperationsHistoryService by closestDI().instance()
-    val logsService: LogsService by closestDI().instance()
+    val operations: DirectoryViewer by closestDI().instance(tag = "histories")
+    val logs: DirectoryViewer by closestDI().instance(tag = "logs")
 
     routing {
         authenticate("employee") {
@@ -22,8 +21,7 @@ fun Application.logsModule() {
             }
 
             get("/v1/history") {
-                val files = operationsHistoryService.getAllFiles()
-                call.respond(files)
+                call.respond(operations.view())
             }
         }
 
@@ -34,8 +32,7 @@ fun Application.logsModule() {
             }
 
             get("/v1/logs") {
-                val files = logsService.getAllLogFiles()
-                call.respond(files)
+                call.respond(logs.view())
             }
         }
     }

@@ -5,7 +5,7 @@ import kotlinx.coroutines.withContext
 import java.nio.file.Files
 import java.nio.file.Path
 
-class SingleDirectoryHelper(private val rootDirectory: Path) : DirectoryHelper {
+class SingleDirectoryViewer(message: String, private val rootDirectory: Path) : DirectoryViewer(message) {
     override suspend fun getAllFiles(): List<String> = withContext(Dispatchers.IO) {
         val directory = openDirectory()
         val files = getAllPaths(directory)

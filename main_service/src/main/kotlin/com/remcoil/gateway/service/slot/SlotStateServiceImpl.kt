@@ -3,11 +3,11 @@ package com.remcoil.gateway.service.slot
 import com.remcoil.domain.device.SlotOpener
 import com.remcoil.domain.device.SlotState
 import com.remcoil.domain.validator.EmployeeDataValidator
-import com.remcoil.gateway.service.history.OperationsHistoryService
+import com.remcoil.gateway.service.history.SlotOperationsHistoryService
 
 class SlotStateServiceImpl(
     private val validator: EmployeeDataValidator,
-    private val operationsService: OperationsHistoryService,
+    private val operationsService: SlotOperationsHistoryService,
     private val opener: SlotOpener,
     private val state: SlotState
 ) : SlotStateService {
