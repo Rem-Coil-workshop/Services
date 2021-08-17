@@ -14,19 +14,19 @@ import org.slf4j.LoggerFactory
 import java.net.ConnectException
 
 class SlotOpenerImpl(
-    private val slotsInteractor: SlotsService,
+    private val slotsService: SlotsService,
     private val client: HttpClient,
     private val routesConfig: RoutesConfig
 ) : SlotOpener {
     private val logger = LoggerFactory.getLogger(SlotOpener::class.java)
 
     override suspend fun openByQrCode(qrCode: String): Boolean {
-        val box = slotsInteractor.getByQrCode(qrCode)
+        val box = slotsService.getByQrCode(qrCode)
         return safetyOpen(box.number)
     }
 
     override suspend fun openByBoxNumber(id: Int): Boolean {
-        val box = slotsInteractor.getById(id)
+        val box = slotsService.getById(id)
         return safetyOpen(box.number)
     }
 

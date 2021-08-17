@@ -4,7 +4,7 @@ import com.remcoil.data.database.slot.SlotsDao
 import com.remcoil.domain.validator.EmployeeDataValidator
 import com.remcoil.domain.validator.EmployeeDataValidatorImpl
 import com.remcoil.domain.device.*
-import com.remcoil.gateway.controller.slot.SlotController
+import com.remcoil.gateway.controller.slot.SlotStateController
 import com.remcoil.gateway.service.slot.SlotsService
 import com.remcoil.gateway.service.slot.SlotStateService
 import com.remcoil.gateway.service.slot.SlotStateServiceImpl
@@ -17,7 +17,7 @@ fun DI.Builder.slotsComponent() {
     bind<SlotsDao>() with singleton { SlotsDao((instance())) }
     bind<SlotsService>() with singleton { SlotsService(instance(), instance()) }
 
-    bind<SlotController>() with singleton { SlotController(instance()) }
+    bind<SlotStateController>() with singleton { SlotStateController(instance()) }
 
     bind<SlotStateService>() with singleton { SlotStateServiceImpl(instance(), instance(), instance(), instance()) }
     bind<EmployeeDataValidator>() with singleton { EmployeeDataValidatorImpl(instance(), instance(), instance()) }

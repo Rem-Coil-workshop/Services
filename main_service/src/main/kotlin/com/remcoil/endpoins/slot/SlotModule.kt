@@ -3,7 +3,7 @@ package com.remcoil.endpoins.slot
 import com.remcoil.data.model.slot.CardCode
 import com.remcoil.data.model.slot.QrCode
 import com.remcoil.data.model.slot.Slot
-import com.remcoil.gateway.controller.slot.SlotController
+import com.remcoil.gateway.controller.slot.SlotStateController
 import com.remcoil.domain.device.SlotOpener
 import com.remcoil.gateway.service.slot.SlotsService
 import com.remcoil.utils.logger
@@ -19,7 +19,7 @@ import org.kodein.di.ktor.closestDI
 
 fun Application.slotModule() {
     val service: SlotsService by closestDI().instance()
-    val controller: SlotController by closestDI().instance()
+    val stateController: SlotStateController by closestDI().instance()
     val opener: SlotOpener by closestDI().instance()
 
     routing {
@@ -43,7 +43,6 @@ fun Application.slotModule() {
 
                 get("/open/{id}") {
                     call.safetyReceiveWithRouteParameter("id") { id ->
-                        logger.info("Открываем ячейку $id")
                         opener.openByBoxNumber(id.toInt())
                         call.respond(HttpStatusCode.NoContent)
                     }
@@ -54,7 +53,7 @@ fun Application.slotModule() {
                 post("/card") {
                     call.safetyReceiveWithBody<CardCode> { card ->
                         logger.info("Считано значение карты ${card.card}")
-                        controller.setCard(card.card)
+                        stateController.setCard(card.card)
                         call.respond(HttpStatusCode.NoContent)
                     }
                 }
@@ -62,7 +61,7 @@ fun Application.slotModule() {
                 post("/qr") {
                     call.safetyReceiveWithBody<QrCode> { code ->
                         logger.info("Считано значение qr кода ${code.qr}")
-                        controller.setQr(code.qr)
+                        stateController.setQr(code.qr)
                         call.respond(HttpStatusCode.NoContent)
                     }
                 }
@@ -70,7 +69,7 @@ fun Application.slotModule() {
 
             get("/reset") {
                 logger.info("Сброс состояния")
-                controller.reset()
+                stateController.reset()
                 call.respond(HttpStatusCode.NoContent)
             }
         }

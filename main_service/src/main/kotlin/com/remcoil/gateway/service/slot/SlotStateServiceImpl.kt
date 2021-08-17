@@ -7,7 +7,7 @@ import com.remcoil.gateway.service.history.OperationsHistoryService
 
 class SlotStateServiceImpl(
     private val validator: EmployeeDataValidator,
-    private val logsService: OperationsHistoryService,
+    private val operationsService: OperationsHistoryService,
     private val opener: SlotOpener,
     private val state: SlotState
 ) : SlotStateService {
@@ -25,7 +25,7 @@ class SlotStateServiceImpl(
 
     private suspend fun openSlot() {
         if (state.isReady) {
-            if (isOpen()) logsService.save(state.qrCode, state.cardNumber)
+            if (isOpen()) operationsService.onSlotOpened(state.qrCode, state.cardNumber)
             state.reset()
         }
     }

@@ -2,7 +2,7 @@ package com.remcoil.gateway.service.history
 
 import com.remcoil.domain.files.DirectoryHelper
 import com.remcoil.domain.files.OperationHistorySaver
-import com.remcoil.domain.log.MessageGenerator
+import com.remcoil.domain.message.MessageGenerator
 import com.remcoil.utils.logger
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -18,7 +18,7 @@ class OperationsHistoryService(
         files
     }
 
-    suspend fun save(qrCode: String, cardCode: Int) = withContext(Dispatchers.IO) {
+    suspend fun onSlotOpened(qrCode: String, cardCode: Int) = withContext(Dispatchers.IO) {
         val message = messageGenerator.generate(qrCode, cardCode)
         operationSaver.save(message)
         logger.info("Создали лог с значениями: qr code = $qrCode, card = $cardCode")

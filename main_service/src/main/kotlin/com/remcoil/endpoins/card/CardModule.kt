@@ -1,6 +1,6 @@
 package com.remcoil.endpoins.card
 
-import com.remcoil.gateway.controller.slot.SlotController
+import com.remcoil.gateway.controller.slot.SlotStateController
 import com.remcoil.utils.logger
 import io.ktor.application.*
 import io.ktor.http.cio.websocket.*
@@ -10,12 +10,12 @@ import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
 
 fun Application.cardModule() {
-    val controller: SlotController by closestDI().instance()
+    val stateController: SlotStateController by closestDI().instance()
 
     routing {
         webSocket("/card") {
             logger.info("Открыт сокет")
-            val observer = object : SlotController.CardObserver {
+            val observer = object : SlotStateController.CardObserver {
                 override suspend fun onCardEntered(card: Int) {
                     logger.info("Отправлено значение карты $card")
                     outgoing.send(Frame.Text(card.toString()))
@@ -32,7 +32,7 @@ fun Application.cardModule() {
             }
 
             try {
-                controller.subscribe(observer)
+                stateController.subscribe(observer)
                 for (frame in incoming) {
                     frame as? Frame.Text ?: continue
                     val receivedText = frame.readText()
@@ -42,7 +42,7 @@ fun Application.cardModule() {
                 }
             } finally {
                 logger.info("Закрываем сокет")
-                controller.unsubscribe(observer)
+                stateController.unsubscribe(observer)
             }
         }
     }

@@ -46,8 +46,6 @@ fun Application.tasksModule() {
         authenticate("employee") {
             route("/v1/tasks") {
                 get {
-                    val principal = call.principal<JWTPrincipal>()
-                    call.logger.info(principal!!.payload.getClaim("firstname").asString())
                     call.respond(service.getAll())
                 }
 

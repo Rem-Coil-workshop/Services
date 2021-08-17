@@ -4,7 +4,7 @@ import com.remcoil.gateway.service.slot.SlotStateService
 import com.remcoil.utils.logger
 import java.util.*
 
-class SlotController(private val slotStateService: SlotStateService) {
+class SlotStateController(private val slotStateService: SlotStateService) {
     interface CardObserver {
         suspend fun onCardEntered(card: Int)
 

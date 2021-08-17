@@ -1,4 +1,4 @@
-package com.remcoil.domain.log
+package com.remcoil.domain.message
 
 import com.remcoil.data.model.employee.Employee
 import com.remcoil.gateway.service.employee.EmployeesService
@@ -19,7 +19,14 @@ class MessageGenerator(
     }
 
     private fun generateByEmployeeAndTask(employee: Employee, task: String): String {
+        return generateMessage(
+            entity = "рабочий ${employee.surname} ${employee.name}",
+            action = "взял материалы для задачи $task"
+        )
+    }
+
+    private fun generateMessage(entity: String, action: String): String {
         val time = LocalTime.now()
-        return "[${time.format(formatter)}] Рабочий ${employee.surname} ${employee.name} взял материалы для задачи $task"
+        return "[${time.format(formatter)}] $entity $action"
     }
 }

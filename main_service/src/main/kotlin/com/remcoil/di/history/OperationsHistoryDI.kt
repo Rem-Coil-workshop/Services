@@ -5,7 +5,7 @@ import com.remcoil.domain.files.DirectoryHelper
 import com.remcoil.domain.files.OperationHistorySaver
 import com.remcoil.domain.files.OperationHistorySaverImpl
 import com.remcoil.domain.files.SingleDirectoryHelper
-import com.remcoil.domain.log.MessageGenerator
+import com.remcoil.domain.message.MessageGenerator
 import com.remcoil.gateway.service.history.OperationsHistoryService
 import org.kodein.di.DI
 import org.kodein.di.bind
