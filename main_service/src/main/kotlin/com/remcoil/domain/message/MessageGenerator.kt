@@ -8,11 +8,11 @@ import kotlinx.coroutines.withContext
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
-class MessageGenerator(private val employeesInteractor: EmployeesService) {
+class MessageGenerator(private val employeesService: EmployeesService) {
     private val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
 
     suspend fun generate(qrCode: String, card: Int): String = withContext(Dispatchers.IO) {
-        val employee = async { employeesInteractor.getByEmployeeNumber(card) }
+        val employee = async { employeesService.getByEmployeeNumber(card) }
         return@withContext generateByEmployeeAndTask(employee.await(), qrCode)
     }
 

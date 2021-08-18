@@ -43,7 +43,7 @@ fun Application.slotModule() {
 
                 get("/open/{id}") {
                     call.safetyReceiveWithRouteParameter("id") { id ->
-                        opener.openByBoxNumber(id.toInt())
+                        opener.openById(id.toInt())
                         call.respond(HttpStatusCode.NoContent)
                     }
                 }

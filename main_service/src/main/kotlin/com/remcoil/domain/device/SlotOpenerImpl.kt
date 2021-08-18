@@ -25,7 +25,7 @@ class SlotOpenerImpl(
         return safetyOpen(box.number)
     }
 
-    override suspend fun openByBoxNumber(id: Int): Boolean {
+    override suspend fun openById(id: Int): Boolean {
         val box = slotsService.getById(id)
         return safetyOpen(box.number)
     }
