@@ -39,7 +39,7 @@ fun Application.employeeModule() {
 
                 delete("/{id}") {
                     call.safetyReceiveWithRouteParameter("id") { id ->
-                        employeeUseCase.remove(id.toInt())
+                        employeeUseCase.delete(id.toInt())
                         call.respond(HttpStatusCode.NoContent)
                     }
                 }

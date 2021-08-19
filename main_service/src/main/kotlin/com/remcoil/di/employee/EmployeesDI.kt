@@ -14,7 +14,7 @@ import org.kodein.di.singleton
 fun DI.Builder.employeesComponents() {
     bind<EmployeesDao>() with singleton { EmployeesDao(instance()) }
     bind<EmployeeRepository>() with singleton { EmployeeRepository(instance()) }
-    bind<EmployeeUseCase>() with singleton { EmployeeUseCase(instance()) }
+    bind<EmployeeUseCase>() with singleton { EmployeeUseCase(instance(), instance()) }
 
     bind<PermissionsDao>() with singleton { PermissionsDao(instance()) }
     bind<PermissionRepository>() with singleton { PermissionRepository(instance()) }

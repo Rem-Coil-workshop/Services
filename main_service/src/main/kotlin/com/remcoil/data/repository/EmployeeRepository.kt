@@ -26,7 +26,7 @@ class EmployeeRepository(private val dao: EmployeesDao) {
         dao.addEmployee(employee)
     }
 
-    suspend fun remove(id: Int) = logged("Удалён рабочий $id") {
-        dao.removeEmployeeById(id)
+    suspend fun delete(id: Int) = logged("Удалён рабочий $id") {
+        dao.deleteEmployeeById(id)
     }
 }

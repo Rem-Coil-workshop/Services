@@ -25,8 +25,4 @@ class TaskRepository(private val dao: TasksDao) {
     suspend fun delete(taskId: Int) = logged("Задача $taskId удалена") {
         dao.removeTaskById(taskId)
     }
-
-    suspend fun delete(qrCode: String) = logged("Задача $qrCode удалена") {
-        dao.removeTaskByQrCode(qrCode)
-    }
 }

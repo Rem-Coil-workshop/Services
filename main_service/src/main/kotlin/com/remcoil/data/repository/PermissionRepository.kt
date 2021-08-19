@@ -24,4 +24,12 @@ class PermissionRepository(private val dao: PermissionsDao) {
         logged("Удалили разрешение на использование задачи ${permission.task.qrCode} для сотрудника ${permission.employee.fullName}") {
             dao.deletePermission(permission.employee, permission.task)
         }
+
+    suspend fun deleteByTask(taskId: Int): Unit = logged("Удаляем разрешения для задачи $taskId") {
+        dao.deletePermissionByTaskId(taskId)
+    }
+
+    suspend fun deleteByEmployee(employeeId: Int): Unit = logged("Удаляем разрешения для сотрудника $employeeId") {
+        dao.deletePermissionByEmployeeId(employeeId)
+    }
 }

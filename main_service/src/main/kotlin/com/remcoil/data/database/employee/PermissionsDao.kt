@@ -35,4 +35,16 @@ class PermissionsDao(private val database: Database) {
         }
         if (resultCode == 0) throw NoSuchPermissionException("Не существует такого разрешения")
     }
+
+    suspend fun deletePermissionByTaskId(id: Int) = safetySuspendTransaction(database) {
+        EmployeePermissions.deleteWhere {
+            EmployeePermissions.taskId eq id
+        }
+    }
+
+    suspend fun deletePermissionByEmployeeId(id: Int) = safetySuspendTransaction(database) {
+        EmployeePermissions.deleteWhere {
+            EmployeePermissions.employeeId eq id
+        }
+    }
 }

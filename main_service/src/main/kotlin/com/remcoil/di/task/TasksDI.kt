@@ -11,5 +11,5 @@ import org.kodein.di.singleton
 fun DI.Builder.tasksComponents() {
     bind<TasksDao>() with singleton { TasksDao(instance()) }
     bind<TaskRepository>() with singleton { TaskRepository(instance()) }
-    bind<TaskUseCase>() with singleton { TaskUseCase(instance(), instance()) }
+    bind<TaskUseCase>() with singleton { TaskUseCase(instance(), instance(), instance()) }
 }

@@ -46,7 +46,7 @@ class EmployeesDao(private val database: Database) {
             employee.copy(id = id.value)
         }
 
-    suspend fun removeEmployeeById(id: Int) = safetySuspendTransaction(database) {
+    suspend fun deleteEmployeeById(id: Int) = safetySuspendTransaction(database) {
         val resultCode = Employees.deleteWhere { Employees.id eq id }
         if (resultCode == 0) throw NoSuchEmployeeException("Сотрудника с таким id не существует")
     }
