@@ -8,7 +8,8 @@ import com.remcoil.domain.device.SlotOpener
 class SlotUseCase(
     private val slotRepository: SlotRepository,
     private val slotOpener: SlotOpener,
-) {
+) : BaseUseCase() {
+
     suspend fun getAll(): List<Slot> = slotRepository.getAll()
 
     suspend fun getById(id: Int): Slot = slotRepository.getById(id)

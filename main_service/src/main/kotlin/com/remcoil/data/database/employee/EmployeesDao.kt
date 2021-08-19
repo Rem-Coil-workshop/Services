@@ -31,7 +31,7 @@ class EmployeesDao(private val database: Database) {
             .select { Employees.employeeNumber eq number }
             .map(::extractEmployee)
             .firstOrNull()
-            ?: throw NoSuchEmployeeException("Сотрудника с таким номером не существует")
+            ?: throw NoSuchEmployeeException("Сотрудника с таким номером не существует ($number)")
     }
 
 

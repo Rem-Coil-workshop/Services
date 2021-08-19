@@ -4,10 +4,8 @@ import com.remcoil.data.model.employee.Employee
 import com.remcoil.data.repository.EmployeeRepository
 import com.remcoil.utils.logged
 
-class EmployeeUseCase(private val employeeRepository: EmployeeRepository) {
+class EmployeeUseCase(private val employeeRepository: EmployeeRepository) : BaseUseCase() {
     suspend fun getAll(): List<Employee> = employeeRepository.getAll()
-
-    suspend fun getByIds(ids: List<Int>): List<Employee> = employeeRepository.getByIds(ids)
 
     suspend fun getById(id: Int): Employee = employeeRepository.getById(id)
 

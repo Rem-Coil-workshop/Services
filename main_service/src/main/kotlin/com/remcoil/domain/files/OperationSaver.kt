@@ -1,5 +1,5 @@
 package com.remcoil.domain.files
 
-interface OperationHistorySaver {
+interface OperationSaver {
     fun save(message: String)
 }

@@ -8,7 +8,7 @@ import java.nio.file.StandardOpenOption
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class OperationHistorySaverImpl(private val config: LogFileConfig) : OperationHistorySaver {
+class OperationSaverImpl(private val config: LogFileConfig) : OperationSaver {
     private val directory = Paths.get(config.operationHistoryFolder)
     private val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
 

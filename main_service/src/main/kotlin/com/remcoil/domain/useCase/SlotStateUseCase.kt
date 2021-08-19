@@ -1,12 +1,14 @@
 package com.remcoil.domain.useCase
 
 import com.remcoil.data.exception.employee.NoPermissionForTaskException
+import com.remcoil.data.model.operation.Operation
 import com.remcoil.domain.device.SlotStateEntity
 import com.remcoil.domain.validator.EmployeeDataValidator
 
 class SlotStateUseCase(
     private val validator: EmployeeDataValidator,
     private val slotStateEntity: SlotStateEntity,
+    private val operationUseCase: OperationUseCase,
 ) {
     suspend fun onCardNumberEntered(card: Int) {
         validator.validateCard(card)
@@ -25,12 +27,19 @@ class SlotStateUseCase(
             val isPermitted = validator.checkPermission(slotStateEntity.state)
             if (isPermitted) {
                 slotStateEntity.open()
-                // Сохраняем операцию operationsService.onSlotOpened(state.qrCode, state.cardNumber)
+                saveOperation()
+                resetState()
             } else {
-                slotStateEntity.reset()
+                resetState()
                 throw NoPermissionForTaskException("No permission for this task")
             }
         }
+    }
+
+    private suspend fun saveOperation() {
+        val state = slotStateEntity.state
+        val operation = Operation.SlotOpened(qrCode = state.qrCode, card = state.cardNumber)
+        operationUseCase.saveOperation(operation)
     }
 
     suspend fun resetState() {

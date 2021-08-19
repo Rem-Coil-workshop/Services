@@ -22,7 +22,7 @@ fun DI.Builder.slotsComponent() {
 
     bind<SlotStateController>() with singleton { SlotStateController(instance()) }
 
-    bind<SlotStateUseCase>() with singleton { SlotStateUseCase(instance(), instance()) }
+    bind<SlotStateUseCase>() with singleton { SlotStateUseCase(instance(), instance(), instance()) }
     bind<EmployeeDataValidator>() with singleton { EmployeeDataValidator(instance(), instance(), instance()) }
     bind<SlotStateEntity>() with singleton { SlotStateEntity(instance(), instance(), instance()) }
 

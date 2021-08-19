@@ -35,7 +35,6 @@ class SlotStateEntity(
     suspend fun open() {
         val slot = taskUseCase.whichSlot(state.qrCode)!!
         slotOpener.open(slot.number)
-        reset()
     }
 
     suspend fun reset() {

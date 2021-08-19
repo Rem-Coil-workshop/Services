@@ -5,7 +5,7 @@ import com.remcoil.config.hocon.LogFileConfig
 import com.remcoil.config.hocon.RoutesConfig
 import com.remcoil.config.hocon.SecureConfig
 import com.remcoil.di.employee.employeesComponents
-import com.remcoil.di.history.operationsHistoryComponents
+import com.remcoil.di.history.operationsComponents
 import com.remcoil.di.log.logsComponents
 import com.remcoil.di.slot.slotsComponent
 import com.remcoil.di.task.tasksComponents
@@ -28,7 +28,7 @@ fun Application.diComponents(config: AppConfig) {
         tasksComponents()
         employeesComponents()
         logsComponents()
-        operationsHistoryComponents()
+        operationsComponents()
         slotsComponent()
         rolesComponent()
         usersComponent()

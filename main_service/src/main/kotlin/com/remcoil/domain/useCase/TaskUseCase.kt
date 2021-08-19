@@ -8,10 +8,8 @@ import com.remcoil.data.repository.TaskRepository
 class TaskUseCase(
     private val taskRepository: TaskRepository,
     private val slotRepository: SlotRepository
-) {
+) : BaseUseCase() {
     suspend fun getAll(): List<Task> = taskRepository.getAll()
-
-    suspend fun getByIds(ids: List<Int>): List<Task> = taskRepository.getByIds(ids)
 
     suspend fun add(taskName: String): Task = taskRepository.add(taskName)
 
