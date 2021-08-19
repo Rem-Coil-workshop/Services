@@ -2,7 +2,7 @@ package com.remcoil.domain.device
 
 import com.remcoil.config.hocon.RoutesConfig
 import com.remcoil.data.model.slot.SlotInfo
-import com.remcoil.gateway.service.slot.SlotsService
+import com.remcoil.domain.useCase.SlotUseCase
 import io.ktor.client.*
 import io.ktor.client.features.*
 import io.ktor.client.request.*
@@ -14,26 +14,15 @@ import org.slf4j.LoggerFactory
 import java.net.ConnectException
 
 class SlotOpenerImpl(
-    private val slotsService: SlotsService,
     private val client: HttpClient,
     private val routesConfig: RoutesConfig
 ) : SlotOpener {
     private val logger = LoggerFactory.getLogger(SlotOpener::class.java)
 
-    override suspend fun openByQrCode(qrCode: String): Boolean {
-        val box = slotsService.getByQrCode(qrCode)
-        return safetyOpen(box.number)
-    }
-
-    override suspend fun openById(id: Int): Boolean {
-        val box = slotsService.getById(id)
-        return safetyOpen(box.number)
-    }
-
-    private suspend fun safetyOpen(boxNumber: Int): Boolean {
+    override suspend fun open(slotNumber: Int): Boolean {
         return withContext(Dispatchers.IO) {
             try {
-                open(boxNumber)
+                safetyOpen(slotNumber)
             } catch (e: ClientRequestException) {
                 logger.info("Конечная точка для сервиса недоступна или формат неверный (${e.response.status.value})")
                 false
@@ -44,13 +33,13 @@ class SlotOpenerImpl(
         }
     }
 
-    private suspend fun open(boxNumber: Int): Boolean {
+    private suspend fun safetyOpen(slotNumber: Int): Boolean {
         val response = client.post<HttpResponse>(urlString = routesConfig.opener) {
             contentType(ContentType.Application.Json)
-            body = SlotInfo(boxNumber)
+            body = SlotInfo(slotNumber)
         }
         val result = response.status.isSuccess()
-        if (result) logger.info("Открыт ящик №$boxNumber")
+        if (result) logger.info("Открыт ящик №$slotNumber")
         return result
     }
 }

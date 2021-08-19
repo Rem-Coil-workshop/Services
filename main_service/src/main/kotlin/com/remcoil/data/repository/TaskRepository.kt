@@ -1,11 +1,11 @@
-package com.remcoil.gateway.service.task
+package com.remcoil.data.repository
 
 import com.remcoil.data.database.task.TasksDao
 import com.remcoil.data.model.task.Task
 import com.remcoil.utils.logged
 import com.remcoil.utils.loggedEntity
 
-class TasksService(private val dao: TasksDao) {
+class TaskRepository(private val dao: TasksDao) {
     suspend fun getAll(): List<Task> = loggedEntity({ "Отдано ${it.size} задач" }) {
         dao.getAll()
     }

@@ -1,15 +1,13 @@
 package com.remcoil.domain.device
 
-interface SlotState {
-    val isReady: Boolean
+data class SlotState(
+    val cardNumber: Int = DEFAULT_CARD_VALUE,
+    val qrCode: String = DEFAULT_QR_CODE_VALUE
+) {
+    companion object {
+        const val DEFAULT_CARD_VALUE = -1
+        const val DEFAULT_QR_CODE_VALUE = ""
+    }
 
-    val cardNumber: Int
-
-    val qrCode: String
-
-    suspend fun setCardNumber(card: Int)
-
-    suspend fun setQrNumber(qr: String)
-
-    suspend fun reset()
+    val isReady get() = qrCode != DEFAULT_QR_CODE_VALUE && cardNumber != DEFAULT_CARD_VALUE
 }

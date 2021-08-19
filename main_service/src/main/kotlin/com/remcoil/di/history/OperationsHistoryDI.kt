@@ -21,7 +21,7 @@ fun DI.Builder.operationsHistoryComponents() {
 
     bind<OperationHistorySaver>() with singleton { OperationHistorySaverImpl(instance()) }
 
-    bind<MessageGenerator>() with singleton { MessageGenerator(instance()) }
+//    bind<MessageGenerator>() with singleton { MessageGenerator(instance()) }
 
     bind<SlotOperationsHistoryService>() with singleton {
         SlotOperationsHistoryService(instance(), instance())

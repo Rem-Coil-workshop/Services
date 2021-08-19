@@ -9,7 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
-class Led(
+class LedService(
     private val client: HttpClient,
     private val config: RoutesConfig
 ) {

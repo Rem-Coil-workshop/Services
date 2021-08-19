@@ -1,10 +1,10 @@
 package com.remcoil.gateway.controller.slot
 
-import com.remcoil.gateway.service.slot.SlotStateService
+import com.remcoil.domain.useCase.SlotStateUseCase
 import com.remcoil.utils.logger
 import java.util.*
 
-class SlotStateController(private val slotStateService: SlotStateService) {
+class SlotStateController(private val stateUseCase: SlotStateUseCase) {
     interface CardObserver {
         suspend fun onCardEntered(card: Int)
 
@@ -25,12 +25,12 @@ class SlotStateController(private val slotStateService: SlotStateService) {
         if (modules.isNotEmpty()) {
             notify(card)
         } else {
-            slotStateService.onCardNumberEntered(card)
+            stateUseCase.onCardNumberEntered(card)
         }
     }
 
     suspend fun setQr(qr: String) {
-        slotStateService.onQrCodeEntered(qr)
+        stateUseCase.onQrCodeEntered(qr)
     }
 
     suspend fun reset() {
@@ -38,7 +38,7 @@ class SlotStateController(private val slotStateService: SlotStateService) {
             closeAllConnection()
             logger.info("Сброс всех соединений")
         } else {
-            slotStateService.resetState()
+            stateUseCase.resetState()
         }
     }
 

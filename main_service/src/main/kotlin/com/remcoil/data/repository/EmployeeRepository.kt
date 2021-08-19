@@ -1,11 +1,11 @@
-package com.remcoil.gateway.service.employee
+package com.remcoil.data.repository
 
 import com.remcoil.data.database.employee.EmployeesDao
 import com.remcoil.data.model.employee.Employee
 import com.remcoil.utils.logged
 import com.remcoil.utils.loggedEntity
 
-class EmployeesService(private val dao: EmployeesDao) {
+class EmployeeRepository(private val dao: EmployeesDao) {
     suspend fun getAll(): List<Employee> = loggedEntity({ "Отдано ${it.size} сотрудников" }) {
         dao.getAll()
     }
@@ -18,7 +18,7 @@ class EmployeesService(private val dao: EmployeesDao) {
         dao.getEmployeeById(id)
     }
 
-    suspend fun getByEmployeeNumber(number: Int): Employee = loggedEntity({ "Отдан рабочий ${it.employeeNumber}" }) {
+    suspend fun getByNumber(number: Int): Employee = loggedEntity({ "Отдан рабочий ${it.employeeNumber}" }) {
         dao.getEmployeeByNumber(number)
     }
 
@@ -28,9 +28,5 @@ class EmployeesService(private val dao: EmployeesDao) {
 
     suspend fun remove(id: Int) = logged("Удалён рабочий $id") {
         dao.removeEmployeeById(id)
-    }
-
-    suspend fun checkByCard(card: Int) = logged("Рабочий $card существует") {
-        getByEmployeeNumber(card)
     }
 }

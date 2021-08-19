@@ -1,10 +1,10 @@
-package com.remcoil.endpoins.site
+package com.remcoil.endpoins.app
 
 import io.ktor.application.*
 import io.ktor.http.content.*
 import io.ktor.routing.*
 
-fun Application.siteModule() {
+fun Application.appModule() {
     routing {
         static("/") {
             files("static")

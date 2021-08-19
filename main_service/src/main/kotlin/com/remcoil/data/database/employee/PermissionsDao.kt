@@ -29,7 +29,7 @@ class PermissionsDao(private val database: Database) {
         }
     }
 
-    suspend fun removePermission(employee: Employee, task: Task) = safetySuspendTransaction(database) {
+    suspend fun deletePermission(employee: Employee, task: Task) = safetySuspendTransaction(database) {
         val resultCode = EmployeePermissions.deleteWhere {
             EmployeePermissions.employeeId eq employee.id and (EmployeePermissions.taskId eq task.id)
         }

@@ -8,4 +8,6 @@ class UserCredentials(
     val lastname: String,
     val password: String,
     val role: String = "employee",
-)
+) {
+    val userRole get() = role.uppercase()
+}
