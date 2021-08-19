@@ -38,7 +38,7 @@ class SlotStateUseCase(
 
     private suspend fun saveOperation() {
         val state = slotStateEntity.state
-        val operation = Operation.SlotOpened(qrCode = state.qrCode, card = state.cardNumber)
+        val operation = Operation.EmployeeOpenedSlot(qrCode = state.qrCode, card = state.cardNumber)
         operationUseCase.saveOperation(operation)
     }
 

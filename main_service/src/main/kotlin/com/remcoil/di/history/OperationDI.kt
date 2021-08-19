@@ -24,7 +24,7 @@ fun DI.Builder.operationsComponents() {
 
     bind<OperationSaver>() with singleton { OperationSaverImpl(instance()) }
 
-    bind<MessageGenerator<OperationWithData.SlotOpened>>(tag = "slot_opened") with singleton {
+    bind<MessageGenerator<OperationWithData.EmployeeOpenedSlot>>(tag = "slot_opened") with singleton {
         SlotOpenMessageGenerator(instance())
     }
 

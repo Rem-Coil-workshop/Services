@@ -14,6 +14,8 @@ class TaskUseCase(
 ) : BaseUseCase() {
     suspend fun getAll(): List<Task> = taskRepository.getAll()
 
+    suspend fun getByQrCode(qrCode: String): Task? = taskRepository.getByQrCode(qrCode)
+
     suspend fun add(taskName: String): Task = taskRepository.add(taskName)
 
     suspend fun delete(taskId: Int) {

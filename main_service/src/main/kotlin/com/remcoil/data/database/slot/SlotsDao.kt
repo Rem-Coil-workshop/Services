@@ -18,7 +18,7 @@ class SlotsDao(private val database: Database) {
         Slots
             .select { Slots.id eq id }
             .map(::extractSlot)
-            .firstOrNull() ?: throw NoSuchSlotException("Ящика с таким идентификатором не существует")
+            .firstOrNull() ?: throw NoSuchSlotException("Ячейки с таким идентификатором не существует")
     }
 
     suspend fun getSlotByTaskId(taskId: Int): Slot? = safetySuspendTransaction(database) {
