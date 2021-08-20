@@ -23,12 +23,14 @@ class OperationUseCase(
 
     suspend fun saveOperation(operation: Operation) = CoroutineScope(currentThreadContext).launch {
         val operationWithData = when (operation) {
-            is Operation.EmployeeOpenedSlot -> mapOperation(operation)
+            is Operation.EmployeeOpenedSlot -> mapEmployeeOpen(operation)
+            is Operation.UserWithSlot.Open -> mapUserOpenSlot(operation)
+            is Operation.UserWithSlot.Update -> mapUserUpdateSlot(operation)
         }
         messageUseCase.saveOperation(operationWithData)
     }
 
-    private suspend fun mapOperation(operation: Operation.EmployeeOpenedSlot): OperationWithData = coroutineScope {
+    private suspend fun mapEmployeeOpen(operation: Operation.EmployeeOpenedSlot): OperationWithData = coroutineScope {
         val qrCode = operation.qrCode
         val employee = async {
             employeeUseCase.getByNumber(operation.card)
@@ -40,4 +42,19 @@ class OperationUseCase(
         }
         return@coroutineScope OperationWithData.EmployeeOpenedSlot(employee.await(), slot.await(), qrCode)
     }
+
+    private suspend fun mapUserOpenSlot(operation: Operation.UserWithSlot.Open): OperationWithData = coroutineScope {
+        val slot = slotUseCase.getById(operation.slotId)
+        return@coroutineScope OperationWithData.UserSlotOpen(operation.user, slot)
+    }
+
+    private suspend fun mapUserUpdateSlot(operation: Operation.UserWithSlot.Update): OperationWithData =
+        coroutineScope {
+            val slot = slotUseCase.getById(operation.slotId)
+            if (slot.taskId == null)
+                return@coroutineScope OperationWithData.UserSlotUpdate(operation.user, slot, null)
+
+            val task = taskUseCase.getById(slot.taskId)
+            return@coroutineScope OperationWithData.UserSlotUpdate(operation.user, slot, task)
+        }
 }

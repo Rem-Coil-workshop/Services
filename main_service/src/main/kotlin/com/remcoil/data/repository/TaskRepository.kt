@@ -10,6 +10,8 @@ class TaskRepository(private val dao: TasksDao) {
         dao.getAll()
     }
 
+    suspend fun getById(id: Int): Task = getByIds(listOf(id)).single()
+
     suspend fun getByIds(ids: List<Int>): List<Task> = loggedEntity({ "Отдали ${it.size} задач" }) {
         dao.getTasksByIds(ids)
     }

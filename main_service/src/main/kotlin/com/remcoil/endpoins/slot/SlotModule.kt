@@ -1,10 +1,10 @@
 package com.remcoil.endpoins.slot
 
 import com.remcoil.data.model.slot.Slot
-import com.remcoil.domain.device.SlotOpener
 import com.remcoil.domain.useCase.SlotUseCase
 import com.remcoil.utils.safetyReceiveWithBody
 import com.remcoil.utils.safetyReceiveWithRouteParameter
+import com.remcoil.utils.user
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.http.*
@@ -31,13 +31,13 @@ fun Application.slotModule() {
 
                 put {
                     call.safetyReceiveWithBody<Slot> { box ->
-                        call.respond(slotUseCase.update(box))
+                        call.respond(slotUseCase.update(box, call.user()))
                     }
                 }
 
                 get("/open/{id}") {
                     call.safetyReceiveWithRouteParameter("id") { id ->
-                        slotUseCase.open(id.toInt())
+                        slotUseCase.open(id.toInt(), call.user())
                         call.respond(HttpStatusCode.NoContent)
                     }
                 }
