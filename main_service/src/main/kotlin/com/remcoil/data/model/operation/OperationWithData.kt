@@ -9,4 +9,6 @@ sealed interface OperationWithData {
     class EmployeeOpenedSlot(val employee: Employee, val slot: Slot, val task: String) : OperationWithData
     class UserSlotOpen(val user: User, val slot: Slot) : OperationWithData
     class UserSlotUpdate(val user: User, val slot: Slot, val task: Task?) : OperationWithData
+    class UserChangePermission(val user: User, val employee: Employee, val task: Task, val isAdd: Boolean) :
+        OperationWithData
 }

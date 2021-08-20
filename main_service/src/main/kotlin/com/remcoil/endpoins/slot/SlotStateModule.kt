@@ -2,7 +2,7 @@ package com.remcoil.endpoins.slot
 
 import com.remcoil.data.model.slot.CardCode
 import com.remcoil.data.model.slot.QrCode
-import com.remcoil.gateway.controller.slot.SlotStateController
+import com.remcoil.controller.slot.SlotStateController
 import com.remcoil.utils.logger
 import com.remcoil.utils.safetyReceiveWithBody
 import io.ktor.application.*

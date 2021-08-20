@@ -12,11 +12,13 @@ class OperationUseCase(
     private val employeeUseCase: EmployeeUseCase,
     private val taskUseCase: TaskUseCase,
     private val slotUseCase: SlotUseCase,
+    permissionUseCase: PermissionUseCase,
 ) {
     init {
         employeeUseCase.operationUseCase = this
         taskUseCase.operationUseCase = this
         slotUseCase.operationUseCase = this
+        permissionUseCase.operationUseCase = this
     }
 
     private val currentThreadContext = newSingleThreadContext("OPERATIONS")
@@ -26,6 +28,7 @@ class OperationUseCase(
             is Operation.EmployeeOpenedSlot -> mapEmployeeOpen(operation)
             is Operation.UserWithSlot.Open -> mapUserOpenSlot(operation)
             is Operation.UserWithSlot.Update -> mapUserUpdateSlot(operation)
+            is Operation.UserChangePermission -> mapUserChangePermission(operation)
         }
         messageUseCase.saveOperation(operationWithData)
     }
@@ -57,4 +60,7 @@ class OperationUseCase(
             val task = taskUseCase.getById(slot.taskId)
             return@coroutineScope OperationWithData.UserSlotUpdate(operation.user, slot, task)
         }
+
+    private fun mapUserChangePermission(operation: Operation.UserChangePermission): OperationWithData =
+        OperationWithData.UserChangePermission(operation.user, operation.employee, operation.task, operation.isAdd)
 }

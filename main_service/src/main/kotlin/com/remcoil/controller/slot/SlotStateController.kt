@@ -1,4 +1,4 @@
-package com.remcoil.gateway.controller.slot
+package com.remcoil.controller.slot
 
 import com.remcoil.domain.useCase.SlotStateUseCase
 import com.remcoil.utils.logger

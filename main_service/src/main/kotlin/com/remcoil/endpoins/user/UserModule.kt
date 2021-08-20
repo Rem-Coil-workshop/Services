@@ -19,17 +19,17 @@ fun Application.userModule() {
 
         route("/v1/users") {
             authenticate("admin") {
-                get {
-                    val users = userUseCase.getAll()
-                    call.respond(users)
-                }
-
                 delete {
                     call.safetyReceiveWithBody<User> { user ->
                         userUseCase.remove(user)
                         call.respond(HttpStatusCode.NoContent)
                     }
                 }
+            }
+
+            get {
+                val users = userUseCase.getAll()
+                call.respond(users)
             }
 
             post("/sign_in") {

@@ -16,24 +16,24 @@ fun Application.logsModule() {
 
     routing {
         authenticate("employee") {
-            static("history") {
-                files("operation_history")
-            }
-
             get("/v1/history") {
                 call.respond(operations.view())
             }
         }
 
-        authenticate("admin") {
-            static("logs") {
-                files("logs/archive")
-                default("logs/log.log")
-            }
+        static("history") {
+            files("operation_history")
+        }
 
+        authenticate("admin") {
             get("/v1/logs") {
                 call.respond(logs.view())
             }
+        }
+
+        static("logs") {
+            files("logs/archive")
+            default("logs/log.log")
         }
     }
 }

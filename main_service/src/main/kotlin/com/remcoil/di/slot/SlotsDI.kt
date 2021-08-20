@@ -9,7 +9,7 @@ import com.remcoil.domain.device.SlotStateEntity
 import com.remcoil.domain.useCase.SlotStateUseCase
 import com.remcoil.domain.useCase.SlotUseCase
 import com.remcoil.domain.validator.EmployeeDataValidator
-import com.remcoil.gateway.controller.slot.SlotStateController
+import com.remcoil.controller.slot.SlotStateController
 import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.instance

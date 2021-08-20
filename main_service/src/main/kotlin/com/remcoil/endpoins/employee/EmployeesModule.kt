@@ -7,6 +7,7 @@ import com.remcoil.domain.useCase.PermissionUseCase
 import com.remcoil.utils.safetyReceiveWithBody
 import com.remcoil.utils.safetyReceiveWithQueryParameter
 import com.remcoil.utils.safetyReceiveWithRouteParameter
+import com.remcoil.utils.user
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.http.*
@@ -70,14 +71,14 @@ fun Application.permissionModule() {
 
                 post {
                     call.safetyReceiveWithBody<Permission> { permission ->
-                        permissionUseCase.add(permission)
+                        permissionUseCase.add(permission, call.user())
                         call.respond(HttpStatusCode.OK)
                     }
                 }
 
                 delete {
                     call.safetyReceiveWithBody<Permission> { permission ->
-                        permissionUseCase.delete(permission)
+                        permissionUseCase.delete(permission, call.user())
                         call.respond(HttpStatusCode.NoContent)
                     }
                 }
