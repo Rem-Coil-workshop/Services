@@ -10,5 +10,9 @@ fun Application.appModule() {
             files("static")
             default("static/index.html")
         }
+
+        static("manual") {
+            default("manual/Manual.pdf")
+        }
     }
 }
